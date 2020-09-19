@@ -13,5 +13,10 @@
   },
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "AgoraServer\\": "./src/AgoraServer"
+    }
   }
 }

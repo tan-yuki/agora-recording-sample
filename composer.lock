@@ -4,8 +4,47 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "8232f6a5081b12115f960beffb992bd4",
+    "content-hash": "ec94333f8a10c74c8902112cce996ea1",
     "packages": [
+        {
+            "name": "chatwork/agora-dynamic-key-php",
+            "version": "1.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/chatwork/agora-dynamic-key-php.git",
+                "reference": "151579a17d6cfcabab3899701cb0bce4df630c40"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/chatwork/agora-dynamic-key-php/zipball/151579a17d6cfcabab3899701cb0bce4df630c40",
+                "reference": "151579a17d6cfcabab3899701cb0bce4df630c40",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^5.6|^7|^8"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^5 || ^7 || ^8"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Agora\\AgoraDynamicKey\\": "src/"
+                }
+            },
+            "autoload-dev": {
+                "psr-4": {
+                    "Agora\\AgoraDynamicKey\\Test\\": "test/"
+                }
+            },
+            "license": [
+                "MIT"
+            ],
+            "support": {
+                "source": "https://github.com/chatwork/agora-dynamic-key-php/tree/1.1.0"
+            },
+            "time": "2019-12-16T03:36:23+00:00"
+        },
         {
             "name": "fig/http-message-util",
             "version": "1.1.4",

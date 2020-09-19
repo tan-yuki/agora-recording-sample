@@ -9,8 +9,15 @@
     "http-interop/http-factory-guzzle": "^1.0",
     "laminas/laminas-diactoros": "^2.4",
     "php-di/slim-bridge": "^3.0",
+    "chatwork/agora-dynamic-key-php": "1.1.0",
     "ext-json": "*"
   },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "git@github.com:chatwork/agora-dynamic-key-php.git"
+    }
+  ],
   "require-dev": {
     "heroku/heroku-buildpack-php": "*"
   },

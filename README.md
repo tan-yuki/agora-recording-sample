@@ -14,3 +14,5 @@ Agora sample server implemented by PHP.
 ```
 heroku local -f ./Procfile.local
 ```
+
+and, see: http://localhost:8888

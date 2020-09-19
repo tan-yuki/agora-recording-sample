@@ -1,25 +1,23 @@
 <?php
 
-require('../vendor/autoload.php');
+use DI\Container;
+use Psr\Http\Message\ResponseInterface as Response;
+use Psr\Http\Message\ServerRequestInterface as Request;
+use Slim\Factory\AppFactory;
 
-$app = new Silex\Application();
-$app['debug'] = true;
+require __DIR__ . '/../vendor/autoload.php';
 
-// Register the monolog logging service
-$app->register(new Silex\Provider\MonologServiceProvider(), array(
-  'monolog.logfile' => 'php://stderr',
-));
+// DI Container
+$container = new Container();
 
-// Register view rendering
-$app->register(new Silex\Provider\TwigServiceProvider(), array(
-    'twig.path' => __DIR__.'/views',
-));
+// Set DI Container
+AppFactory::setContainer($container);
 
-// Our web handlers
+$app = AppFactory::create();
 
-$app->get('/', function() use($app) {
-  $app['monolog']->addDebug('logging output.');
-  return $app['twig']->render('index.twig');
+$app->get('/', function(Request $request, Response $response, $args) {
+    $response->getBody()->write(json_encode(['message' => 'Hello, world!']));
+    return $response->withHeader('Content-Type', 'application/json');
 });
 
 $app->run();

@@ -6,9 +6,16 @@ Agora sample server implemented by PHP.
 
 Please install:
 
-- heroku
+- Heroku
 - php: 7.4
 - composer
+
+# Depends libraries
+
+This project depends these libraries or product:
+
+- [Heroku](https://dashboard.heroku.com/)
+- [Slim Framework](http://www.slimframework.com/)
 
 # Setup
 
@@ -23,6 +30,12 @@ Please install:
 
     - `AGORA_APP_CERTIFICATE`
       - APP Certificate value in your Agora project.
+
+1. Install composer
+
+    ```
+    composer install
+    ```
  
 1. Run locally
 
@@ -67,11 +80,11 @@ see: https://docs.agora.io/en/Agora%20Platform/token/#a-name--tokenause-a-token-
 #### Example
 
 ```
-curl https://your_server/token?appId=myappid&channelName=mychannelname&userId=1234
+$ curl "http://localhost:8888/token?appId=myappid&channelName=mychannelname&userId=1234"
 ```
 
 ```
-{"token":"yourprojecttoken"}
+{"token":"005AQAoAEUyRjU0NUIyMzY1MjIyNjhBNUE2MEE1NzgyNEIzNzRENjBDQzJDMzAAAG1TZ1\/MKqESzadnXwAA"}
 ```
 
 # Development

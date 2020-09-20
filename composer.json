@@ -10,7 +10,10 @@
     "laminas/laminas-diactoros": "^2.4",
     "php-di/slim-bridge": "^3.0",
     "chatwork/agora-dynamic-key-php": "1.1.0",
-    "ext-json": "*"
+    "vlucas/valitron": "^1.4",
+    "monolog/monolog": "^2.1",
+    "ext-json": "*",
+    "ext-apcu": "*"
   },
   "repositories": [
     {

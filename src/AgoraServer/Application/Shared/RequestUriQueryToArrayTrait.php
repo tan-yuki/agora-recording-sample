@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Application\Controller;
+namespace AgoraServer\Application\Shared;
 
 
 use Psr\Http\Message\UriInterface;

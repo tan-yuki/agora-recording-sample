@@ -15,7 +15,7 @@ final class Route
     private GetSecureTokenController $getSecureTokenController;
 
     public function __construct(App $app,
-                                  GetSecureTokenController $getSecureTokenController) {
+                                GetSecureTokenController $getSecureTokenController) {
         $this->app = $app;
         $this->getSecureTokenController = $getSecureTokenController;
     }

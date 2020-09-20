@@ -3,26 +3,45 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application;
 
+use AgoraServer\Application\Middleware\HttpExceptionMiddleware;
 use AgoraServer\Application\Route\Route;
-use Slim\App;
+use DI\Bridge\Slim\Bridge;
+use DI\ContainerBuilder;
+use Monolog\Logger;
+use Psr\Container\ContainerInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Log\LoggerInterface;
+use Slim\Psr7\Factory\ResponseFactory;
 
 final class Initializer
 {
-    private App $app;
-    private Route $route;
+    private ContainerBuilder $builder;
 
-    public function __construct(App $app, Route $route)
+    public function __construct(ContainerBuilder $builder)
     {
-        $this->app = $app;
-        $this->route = $route;
+        $this->builder = $builder;
     }
 
     public function execute(): void
     {
-        // Route
-        $this->route->bind();
+        $this->builder->addDefinitions([
+            LoggerInterface::class => function() {
+                return new Logger('agora');
+            },
+            ResponseFactoryInterface::class => function() {
+                return new ResponseFactory();
+            },
+        ]);
 
-        // Run server
-        $this->app->run();
+        $container = $this->builder->build();
+        $app = Bridge::create($container);
+        $app->addErrorMiddleware(true, true, true);
+        $app->addMiddleware($container->get(HttpExceptionMiddleware::class));
+
+        /** @var Route $router */
+        $route = $container->get(Route::class);
+        $route->bind();;
+
+        $app->run();
     }
 }

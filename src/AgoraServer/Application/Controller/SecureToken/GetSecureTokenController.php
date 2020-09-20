@@ -3,36 +3,44 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\SecureToken;
 
-use AgoraServer\Application\Controller\RequestUriQueryToArrayTrait;
-use AgoraServer\Application\Controller\ResponseWithJsonTrait;
+use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use AgoraServer\Domain\Agora\AppCertificate;
 use AgoraServer\Domain\Agora\AppId;
 use AgoraServer\Domain\Agora\ChannelName;
 use AgoraServer\Domain\Agora\UserId;
 use AgoraServer\Domain\SecureToken\SecureToken;
-use Slim\Psr7\Request;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
+use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Response;
 
 final class GetSecureTokenController
 {
     use ResponseWithJsonTrait;
-    use RequestUriQueryToArrayTrait;
 
-    public function execute(Request $request, Response $response): Response
+    private GetSecureTokenRequest $request;
+
+    public function __construct(GetSecureTokenRequest $request)
     {
-        $queryParameters = $this->toArrayFromURI($request->getUri());
+        $this->request = $request;
+    }
 
-        // TODO: validation
-        $appId = $queryParameters["appId"];
-        $channelName = $queryParameters["channelName"];
-        $userId = (int) $queryParameters["userId"];
+    /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     * @return Response
+     * @throws HttpBadRequestException
+     */
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $validParams = $this->request->validate($request);
 
         $token = SecureToken::create(
-            new AppId($appId),
+            new AppId($validParams[GetSecureTokenRequest::PARAM_APP_ID]),
             // TODO: Read from environment variables
             new AppCertificate("abc"),
-            new ChannelName($channelName),
-            new UserId($userId),
+            new ChannelName($validParams[GetSecureTokenRequest::PARAM_CHANNEL_NAME]),
+            new UserId($validParams[GetSecureTokenRequest::PARAM_USER_ID]),
         );
 
         return $this->withJson($response, ['token' => $token->toString()]);

@@ -9,6 +9,8 @@ use AgoraServer\Domain\Agora\AppId;
 use AgoraServer\Domain\Agora\ChannelName;
 use AgoraServer\Domain\Agora\UserId;
 use AgoraServer\Domain\SecureToken\SecureToken;
+use AgoraServer\Infrastructure\Env\Exception\EnvironmentKeyNotFoundException;
+use AgoraServer\Infrastructure\Env\EnvironmentVariable;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -19,10 +21,12 @@ final class GetSecureTokenController
     use ResponseWithJsonTrait;
 
     private GetSecureTokenRequest $request;
+    private EnvironmentVariable $env;
 
-    public function __construct(GetSecureTokenRequest $request)
+    public function __construct(GetSecureTokenRequest $request, EnvironmentVariable $env)
     {
         $this->request = $request;
+        $this->env = $env;
     }
 
     /**
@@ -30,6 +34,7 @@ final class GetSecureTokenController
      * @param ResponseInterface      $response
      * @return Response
      * @throws HttpBadRequestException
+     * @throws EnvironmentKeyNotFoundException
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
@@ -37,8 +42,7 @@ final class GetSecureTokenController
 
         $token = SecureToken::create(
             new AppId($validParams[GetSecureTokenRequest::PARAM_APP_ID]),
-            // TODO: Read from environment variables
-            new AppCertificate("abc"),
+            new AppCertificate($this->env->getAppCertificate()),
             new ChannelName($validParams[GetSecureTokenRequest::PARAM_CHANNEL_NAME]),
             new UserId($validParams[GetSecureTokenRequest::PARAM_USER_ID]),
         );

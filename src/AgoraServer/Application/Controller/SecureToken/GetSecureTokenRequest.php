@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\SecureToken;
 
+use AgoraServer\Application\Shared\CreateRequestExceptionFromValidationErrorTrait;
 use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
@@ -11,6 +12,7 @@ use Valitron\Validator;
 final class GetSecureTokenRequest
 {
     use RequestUriQueryToArrayTrait;
+    use CreateRequestExceptionFromValidationErrorTrait;
 
     const PARAM_APP_ID = 'appId';
     const PARAM_CHANNEL_NAME = 'channelName';
@@ -38,7 +40,7 @@ final class GetSecureTokenRequest
             $exception = new HttpBadRequestException($request);
             $exception->setDescription(join($v->errors(), ','));
 
-            throw $exception;
+            throw $this->createRequestException($request, $v->errors());
         }
 
         return [

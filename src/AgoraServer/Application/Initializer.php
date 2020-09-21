@@ -3,15 +3,18 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application;
 
-use AgoraServer\Application\Middleware\HttpExceptionMiddleware;
+use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
 use AgoraServer\Application\Route\Route;
 use DI\Bridge\Slim\Bridge;
+use DI\Container;
 use DI\ContainerBuilder;
 use Monolog\Logger;
-use Psr\Container\ContainerInterface;
+use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
+use Slim\Psr7\Factory\ServerRequestFactory;
 
 final class Initializer
 {
@@ -35,8 +38,7 @@ final class Initializer
 
         $container = $this->builder->build();
         $app = Bridge::create($container);
-        $app->addErrorMiddleware(true, true, true);
-        $app->addMiddleware($container->get(HttpExceptionMiddleware::class));
+        $app->addMiddleware($container->get(ExceptionHandleMiddleware::class));
 
         /** @var Route $router */
         $route = $container->get(Route::class);

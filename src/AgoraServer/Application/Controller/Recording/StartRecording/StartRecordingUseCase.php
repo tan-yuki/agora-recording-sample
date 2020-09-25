@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Application\Controller\Recording;
+namespace AgoraServer\Application\Controller\Recording\StartRecording;
 
 
 use AgoraServer\Domain\Agora\Entity\ChannelName;

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Route;
 
-use AgoraServer\Application\Controller\Recording\StartRecordingController;
-use AgoraServer\Application\Controller\SecureToken\GetSecureTokenController;
+use AgoraServer\Application\Controller\Recording\StartRecording\StartRecordingController;
+use AgoraServer\Application\Controller\SecureToken\GetSecureToken\GetSecureTokenController;
 use Slim\App;
 use Slim\Psr7\Request;
 use Slim\Psr7\Response;

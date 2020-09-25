@@ -13,7 +13,7 @@
     "chatwork/agora-dynamic-key-php": "1.1.0",
     "vlucas/valitron": "^1.4",
     "monolog/monolog": "^2.1",
-    "ext-json": "*",
+    "ext-json": "*"
   },
   "repositories": [
     {

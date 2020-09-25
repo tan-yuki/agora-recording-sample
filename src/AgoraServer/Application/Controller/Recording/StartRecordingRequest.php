@@ -26,8 +26,8 @@ class StartRecordingRequest
      */
     public function validate(ServerRequestInterface $request): array
     {
-        $params = $this->toArrayFromURI($request->getUri());
-        $v = new Validator($params);
+        $requestJson = json_decode((string) $request->getBody(), true);
+        $v = new Validator($requestJson);
 
         $v->rule('required', [
             self::PARAM_CHANNEL_NAME,
@@ -41,8 +41,8 @@ class StartRecordingRequest
         }
 
         return [
-            self::PARAM_CHANNEL_NAME => $params[self::PARAM_CHANNEL_NAME],
-            self::PARAM_USER_ID      => (int) $params[self::PARAM_USER_ID],
+            self::PARAM_CHANNEL_NAME => $requestJson[self::PARAM_CHANNEL_NAME],
+            self::PARAM_USER_ID      => (int) $requestJson[self::PARAM_USER_ID],
         ];
     }
 

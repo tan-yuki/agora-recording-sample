@@ -28,7 +28,7 @@ final class Route
         $this->app->get('/token', function(Request $request, Response $response) {
             return $this->getSecureTokenController->execute($request, $response);
         });
-        $this->app->get('/recording/start', function(Request $request, Response $response) {
+        $this->app->post('/recording/start', function(Request $request, Response $response) {
             return $this->startRecordingController->execute($request, $response);
         });
     }

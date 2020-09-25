@@ -86,3 +86,36 @@ $ curl "http://localhost:8888/token?appId=myappid&channelName=mychannelname&user
 ```
 {"token":"005AQAoAEUyRjU0NUIyMzY1MjIyNjhBNUE2MEE1NzgyNEIzNzRENjBDQzJDMzAAAG1TZ1\/MKqESzadnXwAA"}
 ```
+
+### POST /recording/start
+
+
+Start recording.
+see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%20Platforms
+
+#### Request
+
+| Key | Required | Type | Description |
+| --- | --- | --- | --- |
+| channelName | ✔ | string | Unique channel name for the Agora RTC session. |
+| userId      | ✔ | int    | The user id in the Agora application. |
+
+#### Response
+
+| Key | Optional | Type | Description |
+| --- | --- | --- | --- |
+| recordingId |   | string | The recording id for the channel. |
+
+#### Example
+
+```
+$ curl -X POST "http://localhost:8888/recording/start" -d '{
+    "channelName": "test",
+    "userId": 1234
+  }'
+```
+
+```
+{"recordingId":"d54ab21c6548284312c3268f38901699"}
+
+```

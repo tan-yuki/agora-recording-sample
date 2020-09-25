@@ -7,9 +7,9 @@ namespace AgoraServer\Application\Controller\Recording;
 
 use AgoraServer\Domain\ChannelName;
 use AgoraServer\Domain\Recording\RecordingId;
+use AgoraServer\Domain\Service\AgoraRecordingAPIClient\AcquireApi;
+use AgoraServer\Domain\Service\AgoraRecordingAPIClient\StartApi;
 use AgoraServer\Domain\UserId;
-use AgoraServer\Infrastructure\AgoraRecordingAPIClient\AcquireApi;
-use AgoraServer\Infrastructure\AgoraRecordingAPIClient\StartApi;
 
 /**
  * Class StartRecordingUseCase

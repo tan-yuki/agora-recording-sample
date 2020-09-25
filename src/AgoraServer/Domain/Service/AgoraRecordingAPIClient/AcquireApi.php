@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Infrastructure\AgoraRecordingAPIClient;
+namespace AgoraServer\Domain\Service\AgoraRecordingAPIClient;
 
 use AgoraServer\Domain\AppId;
 use AgoraServer\Domain\ChannelName;

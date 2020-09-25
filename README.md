@@ -20,16 +20,22 @@ This project depends on these libraries or product:
 # Setup
 
 1. [Setup Heroku](https://devcenter.heroku.com/articles/getting-started-with-php)
-1. copy `.env` file from `.env.local`
+1. copy `.env` file from `.env.sample`
 
     ```
-    cp .env.local .env
+    cp .env.sample .env
     ```
 
 1. Edit `.env`
 
-    - `AGORA_APP_CERTIFICATE`
-      - APP Certificate value in your Agora project.
+   | Key | Description |
+   | --- | ----------- |
+   | `AGORA_APP_ID`                       | Agora Project AppId. |
+   | `AGORA_APP_CERTIFICATE`              | Agora Project AppCertificate |
+   | `AGORA_RESTFUL_API_CUSTOMER_ID`      | Agora CustomerId for ResfulAPI |
+   | `AGORA_RESTFUL_API_CUSTOMER_SECRET`  | Agora CustomerSecret for RestfulAPI |
+   | `AGORA_RECORDING_AWS_ACCESS_TOKEN`   | AWS access key for uploading recording file to AWS S3 |
+   | `AGORA_RECORDING_AWS_SECRET_TOKEN`   | AWS secret key for uploading recording file to AWS S3 |
 
 1. Install composer
 
@@ -52,7 +58,7 @@ This project depends on these libraries or product:
 
 # Features
 
-- [ ] [Generate secure token](https://docs.agora.io/en/Agora%20Platform/token)
+- [x] [Generate secure token](https://docs.agora.io/en/Agora%20Platform/token)
 - [ ] [Recording](https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%20Platforms)
 
 ## API
@@ -89,8 +95,8 @@ $ curl "http://localhost:8888/token?appId=myappid&channelName=mychannelname&user
 
 ### POST /recording/start
 
-
 Start recording.
+
 see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%20Platforms
 
 #### Request
@@ -110,9 +116,9 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 
 ```
 $ curl -X POST "http://localhost:8888/recording/start" -d '{
-    "channelName": "test",
-    "userId": 1234
-  }'
+  "channelName": "test",
+  "userId": 1234
+}'
 ```
 
 ```

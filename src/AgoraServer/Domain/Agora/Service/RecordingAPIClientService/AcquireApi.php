@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Domain\Service\AgoraRecordingAPIClient;
+namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService;
 
-use AgoraServer\Domain\AppId;
-use AgoraServer\Domain\ChannelName;
-use AgoraServer\Domain\AppIdFactory;
-use AgoraServer\Domain\Recording\ResourceId;
-use AgoraServer\Domain\RestfulAPI\AuthCredentialKey;
-use AgoraServer\Domain\RestfulAPI\AuthCredentialKeyFactory;
-use AgoraServer\Domain\UserId;
+use AgoraServer\Domain\Agora\Entity\Project\AppId;
+use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Project\AppIdFactory;
+use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
+use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKey;
+use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKeyFactory;
+use AgoraServer\Domain\Agora\Entity\UserId;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 

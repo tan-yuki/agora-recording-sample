@@ -4,9 +4,9 @@ declare(strict_types=1);
 namespace AgoraServer\Application\Controller\SecureToken;
 
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
-use AgoraServer\Domain\ChannelName;
-use AgoraServer\Domain\UserId;
-use AgoraServer\Domain\SecureToken\SecureTokenFactory;
+use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\UserId;
+use AgoraServer\Domain\Agora\Entity\Project\SecureTokenFactory;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;

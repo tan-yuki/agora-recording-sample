@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Domain\RestfulAPI;
+namespace AgoraServer\Domain\Agora\Entity\RestfulAPI;
 
 class AuthCredentialKeyFactory
 {

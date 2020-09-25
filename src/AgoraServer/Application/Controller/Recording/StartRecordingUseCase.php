@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace AgoraServer\Application\Controller\Recording;
 
 
-use AgoraServer\Domain\ChannelName;
-use AgoraServer\Domain\Recording\RecordingId;
-use AgoraServer\Domain\Service\AgoraRecordingAPIClient\AcquireApi;
-use AgoraServer\Domain\Service\AgoraRecordingAPIClient\StartApi;
-use AgoraServer\Domain\UserId;
+use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AcquireApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StartApi;
+use AgoraServer\Domain\Agora\Entity\UserId;
 
 /**
  * Class StartRecordingUseCase

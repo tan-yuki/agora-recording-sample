@@ -2,8 +2,9 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Domain;
+namespace AgoraServer\Domain\Agora\Entity\Project;
 
+use AgoraServer\Domain\Agora\Entity\Project\AppCertificate;
 use AgoraServer\Infrastructure\Env\EnvironmentVariable;
 
 final class AppCertificateFactory

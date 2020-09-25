@@ -2,18 +2,18 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Domain\SecureToken;
+namespace AgoraServer\Domain\Agora\Entity\Project;
 
 
 /**
- * Class ExpireTime
+ * Class SecureTokenExpireTime
  *
  * Tokenの有効期限。
  *
  * @see https://docs.agora.io/en/Agora%20Platform/token/#app-certificate
  * @package AgoraServer\Domain\SecureToken
  */
-final class ExpireTime
+final class SecureTokenExpireTime
 {
     private int $currentTimeUnixTime;
     private int $expiredSeconds;

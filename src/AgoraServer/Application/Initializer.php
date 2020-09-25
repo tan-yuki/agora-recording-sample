@@ -6,15 +6,11 @@ namespace AgoraServer\Application;
 use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
 use AgoraServer\Application\Route\Route;
 use DI\Bridge\Slim\Bridge;
-use DI\Container;
 use DI\ContainerBuilder;
 use Monolog\Logger;
-use Psr\Http\Message\RequestFactoryInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Slim\Psr7\Factory\ResponseFactory;
-use Slim\Psr7\Factory\ServerRequestFactory;
 
 final class Initializer
 {
@@ -42,7 +38,7 @@ final class Initializer
 
         /** @var Route $router */
         $route = $container->get(Route::class);
-        $route->bind();;
+        $route->bind();
 
         $app->run();
     }

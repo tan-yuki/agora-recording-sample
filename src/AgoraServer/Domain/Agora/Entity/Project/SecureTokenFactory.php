@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Domain\SecureToken;
+namespace AgoraServer\Domain\Agora\Entity\Project;
 
 use Agora\AgoraDynamicKey\DynamicKey5;
-use AgoraServer\Domain\AppCertificateFactory;
-use AgoraServer\Domain\ChannelName;
-use AgoraServer\Domain\AppIdFactory;
-use AgoraServer\Domain\UserId;
+use AgoraServer\Domain\Agora\Entity\Project\AppCertificateFactory;
+use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Project\AppIdFactory;
+use AgoraServer\Domain\Agora\Entity\UserId;
 
 final class SecureTokenFactory
 {
@@ -16,14 +16,14 @@ final class SecureTokenFactory
      */
     const TOKEN_EXPIRED_PERIOD = 21600; // 6 * 60 * 60 = 6時間
 
-    private AppIdFactory $appIdFactory;
-    private AppCertificateFactory $appCertificateFactory;
+    private AppId $appId;
+    private AppCertificate $appCertificate;
 
     public function __construct(AppIdFactory $appIdFactory,
                                 AppCertificateFactory $appCertificateFactory)
     {
-        $this->appIdFactory = $appIdFactory;
-        $this->appCertificateFactory = $appCertificateFactory;
+        $this->appId = $appIdFactory->create();
+        $this->appCertificate = $appCertificateFactory->create();
     }
 
     public function create(ChannelName $channelName, UserId $userId): SecureToken
@@ -31,10 +31,10 @@ final class SecureTokenFactory
         $currentTimeUnixTime = time();
         $randomInt = rand(100000000, 999999999);
 
-        $expireTime = ExpireTime::create($currentTimeUnixTime, self::TOKEN_EXPIRED_PERIOD);
+        $expireTime = SecureTokenExpireTime::create($currentTimeUnixTime, self::TOKEN_EXPIRED_PERIOD);
         $dynamicKey = DynamicKey5::generateDynamicKey(
-            $this->appIdFactory->create()->value(),
-            $this->appCertificateFactory->create()->value(),
+            $this->appId->value(),
+            $this->appCertificate->value(),
             $channelName->value(),
             $currentTimeUnixTime,
             $randomInt,

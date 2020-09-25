@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Domain\SecureToken;
+namespace AgoraServer\Domain\Agora\Entity\Project;
 
 final class SecureToken
 {

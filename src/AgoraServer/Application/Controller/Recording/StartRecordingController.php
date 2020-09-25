@@ -5,8 +5,8 @@ namespace AgoraServer\Application\Controller\Recording;
 
 use AgoraServer\Application\Controller\SecureToken\GetSecureTokenRequest;
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
-use AgoraServer\Domain\ChannelName;
-use AgoraServer\Domain\UserId;
+use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\UserId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;

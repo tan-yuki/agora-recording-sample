@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 
-namespace AgoraServer\Domain\Agora;
+namespace AgoraServer\Domain;
 
 
 final class ChannelName
@@ -19,6 +19,4 @@ final class ChannelName
     {
         return $this->channelName;
     }
-
-
 }

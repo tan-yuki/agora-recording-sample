@@ -1,7 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Application\Controller\SecureToken;
+
+namespace AgoraServer\Application\Controller\Recording;
+
 
 use AgoraServer\Application\Shared\CreateRequestExceptionFromValidationErrorTrait;
 use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
@@ -9,12 +11,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Valitron\Validator;
 
-final class GetSecureTokenRequest
+class StartRecordingRequest
 {
     use RequestUriQueryToArrayTrait;
     use CreateRequestExceptionFromValidationErrorTrait;
 
-    const PARAM_APP_ID = 'appId';
     const PARAM_CHANNEL_NAME = 'channelName';
     const PARAM_USER_ID = 'userId';
 
@@ -29,7 +30,6 @@ final class GetSecureTokenRequest
         $v = new Validator($params);
 
         $v->rule('required', [
-            self::PARAM_APP_ID,
             self::PARAM_CHANNEL_NAME,
             self::PARAM_USER_ID
         ]);
@@ -41,9 +41,9 @@ final class GetSecureTokenRequest
         }
 
         return [
-            self::PARAM_APP_ID       => $params[self::PARAM_APP_ID],
             self::PARAM_CHANNEL_NAME => $params[self::PARAM_CHANNEL_NAME],
             self::PARAM_USER_ID      => (int) $params[self::PARAM_USER_ID],
         ];
     }
+
 }

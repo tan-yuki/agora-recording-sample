@@ -2,7 +2,7 @@
 
 Agora sample server implemented by PHP.
 
-# Premise
+# Prerequisites
 
 Please install:
 
@@ -12,7 +12,7 @@ Please install:
 
 # Depends libraries
 
-This project depends these libraries or product:
+This project depends on these libraries or product:
 
 - [Heroku](https://dashboard.heroku.com/)
 - [Slim Framework](http://www.slimframework.com/)
@@ -42,7 +42,7 @@ This project depends these libraries or product:
     ```
     heroku local -f ./Procfile.local
     ```
-    and, see: http://localhost:8888
+    then, see: http://localhost:8888
 
 1. Or, deploy to heroku server.
 
@@ -86,13 +86,3 @@ $ curl "http://localhost:8888/token?appId=myappid&channelName=mychannelname&user
 ```
 {"token":"005AQAoAEUyRjU0NUIyMzY1MjIyNjhBNUE2MEE1NzgyNEIzNzRENjBDQzJDMzAAAG1TZ1\/MKqESzadnXwAA"}
 ```
-
-# Development
-
-## How to test in local?
-
-```
-heroku local -f ./Procfile.local
-```
-
-and, see: http://localhost:8888

@@ -73,7 +73,6 @@ see: https://docs.agora.io/en/Agora%20Platform/token/#a-name--tokenause-a-token-
 
 | Key | Required | Type | Description |
 | --- | --- | --- | --- |
-| appId       | ✔ | string | The App ID of your Agora Project.  |
 | channelName | ✔ | string | Unique channel name for the Agora RTC session. |
 | userId      | ✔ | int    | The user id in the Agora application. |
 

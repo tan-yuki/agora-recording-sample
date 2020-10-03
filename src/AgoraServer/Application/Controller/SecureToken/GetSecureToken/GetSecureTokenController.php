@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\SecureToken\GetSecureToken;
 
+use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
 use AgoraServer\Domain\Agora\Entity\UserId;
@@ -14,6 +15,7 @@ use Slim\Psr7\Response;
 
 final class GetSecureTokenController
 {
+    use RequestUriQueryToArrayTrait;
     use ResponseWithJsonTrait;
 
     private GetSecureTokenRequest $request;

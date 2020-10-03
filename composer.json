@@ -8,7 +8,6 @@
     "guzzlehttp/psr7": "^1.6",
     "guzzlehttp/guzzle": "^7.1",
     "http-interop/http-factory-guzzle": "^1.0",
-    "laminas/laminas-diactoros": "^2.4",
     "php-di/slim-bridge": "^3.0",
     "chatwork/agora-dynamic-key-php": "1.1.0",
     "vlucas/valitron": "^1.4",
@@ -22,11 +21,21 @@
     }
   ],
   "require-dev": {
-    "heroku/heroku-buildpack-php": "*"
+    "heroku/heroku-buildpack-php": "*",
+    "phpunit/phpunit": "^9.3"
   },
   "autoload": {
     "psr-4": {
       "AgoraServer\\": "./src/AgoraServer"
     }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "UnitTest\\": "./tests/UnitTest",
+      "FeatureTest\\": "./tests/FeatureTest"
+    }
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit -v"
   }
 }

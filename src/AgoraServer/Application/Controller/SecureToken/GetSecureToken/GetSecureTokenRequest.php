@@ -14,7 +14,6 @@ final class GetSecureTokenRequest
     use RequestUriQueryToArrayTrait;
     use CreateRequestExceptionFromValidationErrorTrait;
 
-    const PARAM_APP_ID = 'appId';
     const PARAM_CHANNEL_NAME = 'channelName';
     const PARAM_USER_ID = 'userId';
 
@@ -29,7 +28,6 @@ final class GetSecureTokenRequest
         $v = new Validator($params);
 
         $v->rule('required', [
-            self::PARAM_APP_ID,
             self::PARAM_CHANNEL_NAME,
             self::PARAM_USER_ID
         ]);
@@ -41,7 +39,6 @@ final class GetSecureTokenRequest
         }
 
         return [
-            self::PARAM_APP_ID       => $params[self::PARAM_APP_ID],
             self::PARAM_CHANNEL_NAME => $params[self::PARAM_CHANNEL_NAME],
             self::PARAM_USER_ID      => (int) $params[self::PARAM_USER_ID],
         ];

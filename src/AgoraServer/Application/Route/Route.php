@@ -5,9 +5,9 @@ namespace AgoraServer\Application\Route;
 
 use AgoraServer\Application\Controller\Recording\StartRecording\StartRecordingController;
 use AgoraServer\Application\Controller\SecureToken\GetSecureToken\GetSecureTokenController;
+use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ServerRequestInterface;
 use Slim\App;
-use Slim\Psr7\Request;
-use Slim\Psr7\Response;
 
 final class Route
 {
@@ -25,10 +25,10 @@ final class Route
     }
 
     public function bind(): void {
-        $this->app->get('/token', function(Request $request, Response $response) {
+        $this->app->get('/token', function(ServerRequestInterface $request, ResponseInterface $response) {
             return $this->getSecureTokenController->execute($request, $response);
         });
-        $this->app->post('/recording/start', function(Request $request, Response $response) {
+        $this->app->post('/recording/start', function(ServerRequestInterface $request, ResponseInterface $response) {
             return $this->startRecordingController->execute($request, $response);
         });
     }

@@ -5,6 +5,6 @@ use AgoraServer\Application\Initializer;
 
 require __DIR__ . '/../vendor/autoload.php';
 
-$builder = new ContainerBuilder();
-$initializer = new Initializer($builder);
-$initializer->execute();
+$initializer = new Initializer(new ContainerBuilder());
+$app = $initializer->createApplication();
+$app->run();

@@ -24,7 +24,7 @@ trait CreateRequestExceptionFromValidationErrorTrait
      *
      * @return HttpBadRequestException
      */
-    public function createRequestException(ServerRequestInterface $request, array $errors): HttpBadRequestException
+    protected function createRequestException(ServerRequestInterface $request, array $errors): HttpBadRequestException
     {
         $message_list = [];
         foreach ($errors as $errs) {

@@ -1,5 +1,6 @@
 vendor/
 .env
+.phpunit.result.cache
 
 # Created by https://www.toptal.com/developers/gitignore/api/MacOS,Vim
 # Edit at https://www.toptal.com/developers/gitignore?templates=MacOS,Vim

@@ -23,7 +23,6 @@ final class Initializer
     {
         $this->builder = $builder;
 
-        // Add Initialize container definitions
         $this->builder->addDefinitions([
             LoggerInterface::class => function () {
                 return new Logger('agora');

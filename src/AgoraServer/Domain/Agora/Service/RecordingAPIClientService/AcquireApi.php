@@ -19,36 +19,23 @@ use GuzzleHttp\Psr7\Request;
  */
 class AcquireApi
 {
-    private AppId $appId;
-    private AuthCredentialKey $authCredentialKey;
+    private AgoraRecordingAPIClient $client;
 
-    public function __construct(AppIdFactory $appIdFactory,
-                                AuthCredentialKeyFactory $authCredentialKeyFactory)
+    public function __construct(AgoraRecordingAPIClient $client)
     {
-        $this->appId = $appIdFactory->create();
-        $this->authCredentialKey = $authCredentialKeyFactory->create();
+        $this->client = $client;
     }
 
     public function __invoke(ChannelName $channelName, UserId $userId): ResourceId
     {
-        $client = new Client();
-        $request = new Request(
-            'POST',
-            sprintf('https://api.agora.io/v1/apps/%s/cloud_recording/acquire', $this->appId->value()),
-            [
-                'Content-Type' => 'application/json;charset=utf-8',
-                'Authorization' => 'Basic ' . $this->authCredentialKey->value()
-            ],
-            json_encode([
-                'cname' => $channelName->value(),
-                'uid' => (string) $userId->value(),
-                'clientRequest' => [
-                    'resourceExpiredHour' => 24,
-                ],
-            ], JSON_UNESCAPED_UNICODE));
+        $responseJson = $this->client->callAgoraApi('/acquire', [
 
-        $response = $client->send($request);
-        $responseJson = json_decode((string) $response->getBody(), true);
+            'cname' => $channelName->value(),
+            'uid' => (string) $userId->value(),
+            'clientRequest' => [
+                'resourceExpiredHour' => 24,
+            ],
+        ]);
 
         return new ResourceId($responseJson['resourceId']);
     }

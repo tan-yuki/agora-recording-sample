@@ -3,52 +3,34 @@ declare(strict_types=1);
 
 namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService;
 
-use AgoraServer\Domain\Agora\Entity\Project\AppId;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
-use AgoraServer\Domain\Agora\Entity\Project\AppIdFactory;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
-use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKey;
-use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKeyFactory;
 use AgoraServer\Domain\Agora\Entity\UserId;
 use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentials;
 use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentialsFactory;
 use AgoraServer\Domain\Agora\Entity\Project\SecureTokenFactory;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
 
 class StartApi
 {
-    private AppId $appId;
-    private AuthCredentialKey $authCredentialKey;
+    private AgoraRecordingAPIClient $client;
     private SecureTokenFactory $secureTokenFactory;
     private AwsCredentials $awsCredentials;
 
-    public function __construct(AppIdFactory $appIdFactory,
-                                AuthCredentialKeyFactory $authCredentialKeyFactory,
+    public function __construct(AgoraRecordingAPIClient $client,
                                 SecureTokenFactory  $secureTokenFactory,
                                 AwsCredentialsFactory $awsCredentialsFactory)
     {
-        $this->appId = $appIdFactory->create();
-        $this->authCredentialKey = $authCredentialKeyFactory->create();
+        $this->client = $client;
         $this->secureTokenFactory = $secureTokenFactory;
         $this->awsCredentials = $awsCredentialsFactory->create();
     }
 
     public function __invoke(ResourceId $resourceId, ChannelName $channelName, UserId $userId): RecordingId
     {
-        $client = new Client();
-        $request = new Request(
-            'POST',
-            sprintf('https://api.agora.io/v1/apps/%s/cloud_recording/resourceid/%s/mode/mix/start',
-                $this->appId->value(),
-                $resourceId->value(),
-            ),
+        $responseJson = $this->client->callAgoraApi(
+            sprintf('/resourceid/%s/mode/mix/start', $resourceId->value()),
             [
-                'Content-Type' => 'application/json;charset=utf-8',
-                'Authorization' => 'Basic ' . $this->authCredentialKey->value()
-            ],
-            json_encode([
                 'cname' => $channelName->value(),
                 'uid' => (string) $userId->value(),
                 'clientRequest' => [
@@ -67,10 +49,7 @@ class StartApi
                         'secretKey' => $this->awsCredentials->getSecretToken(),
                     ]
                 ],
-            ], JSON_UNESCAPED_UNICODE));
-
-        $response = $client->send($request);
-        $responseJson = json_decode((string) $response->getBody(), true);
+            ]);
 
         return new RecordingId($responseJson['sid']);
     }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\SecureToken\GetSecureToken;
 
+use AgoraServer\Application\Controller\Base\ControllerInterface;
 use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
@@ -13,7 +14,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Slim\Psr7\Response;
 
-final class GetSecureTokenController
+final class GetSecureTokenController implements ControllerInterface
 {
     use RequestUriQueryToArrayTrait;
     use ResponseWithJsonTrait;

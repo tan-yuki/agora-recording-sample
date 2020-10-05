@@ -109,18 +109,63 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 
 | Key | Optional | Type | Description |
 | --- | --- | --- | --- |
-| recordingId |   | string | The recording id for the channel. |
+| resourceId |   | string | The resource id for cloud recordings. |
+| sid        |   | string | The recording id for the channel. |
 
 #### Example
 
 ```
-$ curl -X POST "http://localhost:8888/recording/start" -d '{
+ curl -s -X POST "http://localhost:8888/recording/start" -d '{
   "channelName": "test",
   "userId": 1234
-}'
+}' | jq '.'
 ```
 
+```json
+{
+  "resourceId": "Etkl6g-zSB7EpP-Da1zN65HXLQnA2s-23cPxAwEFqYaWWQ5AeOQlgEO4SGH5_hg263tLUldqQyZcq4VG4a_MN4-etbhDkfvmnZDDCwTsQI3JLpSBG_SZymZQ0YQ20eTHNbw0jcay8u4GJ9795u5cM-Qr4DiucM3dUF8Uj26P_56ocHtZN3te7gYDwTHqv9cXRam8hZNQbXghzpkxehccZ1cj6nrm7wtqPOdk__EfzYk-wWdSNBDKE1G3RYllF_syKQUZDrxcFumZothzIzJRnjSScypvXchheXfIcMXYo6E",
+  "sid": "16fad08c8b47ce121c1483bec56e656e"
+}
 ```
-{"recordingId":"d54ab21c6548284312c3268f38901699"}
+### POST /recording/stop
 
+Stop recording.
+
+see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%20Platforms
+
+#### Request
+
+| Key | Required | Type | Description |
+| --- | --- | --- | --- |
+| resourceId  | ✔ | string | Resource id.  |
+| sid         | ✔ | string | Recording id. |
+| channelName | ✔ | string | Unique channel name for the Agora RTC session. |
+| userId      | ✔ | int    | The user id in the Agora application. |
+
+#### Response
+
+| Key    | Optional | Type     | Description |
+| ---    | ---      | ---      | --- |
+| files  |          | object[] | The list of this file object |
+
+
+#### Example
+
+```
+$ curl -s -X POST "http://localhost:8888/recording/start" -d '{                        [master]
+  "resourceId": "Etkl6g-zSB7EpP-Da1zN65HXLQnA2s-23cPxAwEFqYaWWQ5AeOQlgEO4SGH5_hg263tLUldqQyZcq4VG4a_MN4-etbhDkfvmnZDDCwTsQI3JLpSBG_SZymZQ0YQ20eTHktAd43wJVHmjsZ2KZah1FgMbuFONuPcijEkJnYDSX6nqkSTdIfZmpRyBSmMTOpJmkkypDkxXmxhn2MlU4MntRbWghyht8dUHwa-54AveVTkplHMoZhsg9ePh54jRTM2FVAM-AdJg8v3F4EYaPNcigym7eLYK9rDybv8zIxLBFGA",
+  "sid": "222f6d96464a234078ccf6b4712a63b8",
+  "channelName": "test",
+  "userId": 1234
+}' | jq '.'
+```
+
+```json
+{
+  "files": [
+    {
+      "fileName": "aaa.m3u8"
+    }
+  ]
+}
 ```

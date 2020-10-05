@@ -6,10 +6,9 @@ namespace AgoraServer\Application;
 use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
 use AgoraServer\Application\Route\Route;
 use DI\Bridge\Slim\Bridge;
-use DI\Container;
 use DI\ContainerBuilder;
+use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Log\LoggerInterface;
 use Slim\App;
@@ -25,7 +24,10 @@ final class Initializer
 
         $this->builder->addDefinitions([
             LoggerInterface::class => function () {
-                return new Logger('agora');
+                $logger = new Logger('agora');
+                $logger->pushHandler(new StreamHandler('php://stderr', Logger::WARNING));
+
+                return $logger;
             },
             ResponseFactoryInterface::class => function () {
                 return new ResponseFactory();

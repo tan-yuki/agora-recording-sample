@@ -28,13 +28,21 @@ class StartRecordingUseCase
         $this->startApi = $startApi;
     }
 
-    public function __invoke(ChannelName $channelName, UserId $userId): RecordingId
+    /**
+     * @param ChannelName $channelName
+     * @param UserId      $userId
+     *
+     * @return StartResponseDto
+     */
+    public function __invoke(ChannelName $channelName, UserId $userId): StartResponseDto
     {
         $acquireApi = $this->acquireApi;
         $resourceId = $acquireApi($channelName, $userId);
 
         $startApi = $this->startApi;
-        return $startApi($resourceId, $channelName, $userId);
+        $recordingId = $startApi($resourceId, $channelName, $userId);
+
+        return new StartResponseDto($resourceId, $recordingId);
     }
 
 }

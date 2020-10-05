@@ -44,7 +44,7 @@ class ExceptionHandleMiddleware implements MiddlewareInterface
                 'message' => $httpException->getDescription(),
             ]);
         } catch (Exception $exception) {
-            $this->logger->error($exception->getTraceAsString());
+            $this->logger->error($exception);
 
             $response = $this->responseFactory->createResponse()->withStatus(500);
             return $this->withJson($response, [

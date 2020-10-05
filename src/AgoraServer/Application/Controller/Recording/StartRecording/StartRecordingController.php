@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\Recording\StartRecording;
 
+use AgoraServer\Application\Controller\Base\ControllerInterface;
 use AgoraServer\Application\Controller\SecureToken\GetSecureToken\GetSecureTokenRequest;
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
@@ -12,7 +13,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 
 
-final class StartRecordingController
+final class StartRecordingController implements ControllerInterface
 {
     use ResponseWithJsonTrait;
 
@@ -37,12 +38,12 @@ final class StartRecordingController
         $validParams = $this->request->validate($request);
         $useCase = $this->useCase;
 
-        $recordingId = $useCase(
+        $dto = $useCase(
             new ChannelName($validParams[GetSecureTokenRequest::PARAM_CHANNEL_NAME]),
             new UserId($validParams[GetSecureTokenRequest::PARAM_USER_ID]),
         );
 
-        return $this->withJson($response, ['recordingId' => $recordingId->value()]);
+        return $this->withJson($response, $dto->toArray());
     }
 
 }

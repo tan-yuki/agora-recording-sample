@@ -39,7 +39,7 @@ class StartApi
                 'cname' => $channelName->value(),
                 'uid' => (string) $userId->value(),
                 'clientRequest' => [
-                    'token' => $this->secureTokenFactory->create($channelName, $userId),
+                    // 'token' => $this->secureTokenFactory->create($channelName, $userId),
                     'recordingConfig' => [
                         'channelType' => 1,    // Live mode only.
                         // 'decryptionMode' => 3, // AES-256, XTS mode.
@@ -48,7 +48,7 @@ class StartApi
                     'storageConfig' => [
                         'vendor' => 1, // Amazon S3
                         'region' => 10, // AP_NORTHEAST_1
-                        'bucket' => $this->bucketName,
+                        'bucket' => $this->bucketName->value(),
                         'accessKey' => $this->awsCredentials->getAccessToken(),
                         'secretKey' => $this->awsCredentials->getSecretToken(),
                     ]

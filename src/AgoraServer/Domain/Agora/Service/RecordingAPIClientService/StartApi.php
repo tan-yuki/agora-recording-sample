@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService;
 
 use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Recording\AWSS3BucketName;
+use AgoraServer\Domain\Agora\Entity\Recording\AwsS3BucketNameFactory;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
 use AgoraServer\Domain\Agora\Entity\UserId;
@@ -15,14 +17,17 @@ class StartApi
 {
     private AgoraRecordingAPIClient $client;
     private SecureTokenFactory $secureTokenFactory;
+    private AwsS3BucketName $bucketName;
     private AwsCredentials $awsCredentials;
 
     public function __construct(AgoraRecordingAPIClient $client,
                                 SecureTokenFactory  $secureTokenFactory,
+                                AwsS3BucketNameFactory $awsS3BucketNameFactory,
                                 AwsCredentialsFactory $awsCredentialsFactory)
     {
         $this->client = $client;
         $this->secureTokenFactory = $secureTokenFactory;
+        $this->bucketName = $awsS3BucketNameFactory->create();
         $this->awsCredentials = $awsCredentialsFactory->create();
     }
 
@@ -44,7 +49,7 @@ class StartApi
                     'storageConfig' => [
                         'vendor' => 1, // Amazon S3
                         'region' => 10, // AP_NORTHEAST_1
-                        'bucket' => 'agora-recording-sample',
+                        'bucket' => $this->bucketName,
                         'accessKey' => $this->awsCredentials->getAccessToken(),
                         'secretKey' => $this->awsCredentials->getSecretToken(),
                     ]

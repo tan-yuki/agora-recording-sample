@@ -13,6 +13,7 @@ final class EnvironmentVariable
     const KEY_RESTFUL_API_CUSTOMER_SECRET = 'AGORA_RESTFUL_API_CUSTOMER_SECRET';
     const KEY_RECORDING_AWS_ACCESS_TOKEN = 'AGORA_RECORDING_AWS_ACCESS_TOKEN';
     const KEY_RECORDING_AWS_SECRET_TOKEN = 'AGORA_RECORDING_AWS_SECRET_TOKEN';
+    const KEY_RECORDING_AWS_S3_BUCKET_NAME = 'AGORA_RECORDING_AWS_S3_BUCKET_NAME';
 
     /**
      * @return string
@@ -69,6 +70,15 @@ final class EnvironmentVariable
     }
 
     /**
+     * @return string
+     * @throws EnvironmentKeyNotFoundException
+     */
+    public function getAWSS3BucketName(): string
+    {
+        return $this->getEnvValue(self::KEY_RECORDING_AWS_S3_BUCKET_NAME);
+    }
+
+    /**
      * @param string $key
      * @return string
      * @throws EnvironmentKeyNotFoundException
@@ -82,6 +92,4 @@ final class EnvironmentVariable
 
         return $value;
     }
-
-
 }

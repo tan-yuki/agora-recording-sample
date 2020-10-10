@@ -11,7 +11,6 @@ use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKeyFactory;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
-use Psr\Log\LoggerInterface;
 
 class AgoraRecordingAPIClient
 {

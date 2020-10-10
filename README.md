@@ -36,6 +36,7 @@ This project depends on these libraries or product:
    | `AGORA_RESTFUL_API_CUSTOMER_SECRET`  | Agora CustomerSecret for RestfulAPI |
    | `AGORA_RECORDING_AWS_ACCESS_TOKEN`   | AWS access key for uploading recording file to AWS S3 |
    | `AGORA_RECORDING_AWS_SECRET_TOKEN`   | AWS secret key for uploading recording file to AWS S3 |
+   | `AGORA_RECORDING_AWS_S3_BUCKET_NAME` | AWS S3 Bucket name. |
 
 1. Install composer
 

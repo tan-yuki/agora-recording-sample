@@ -1,6 +1,6 @@
-# agora-php-server-sample 
+# Agora recording application
 
-Agora sample server implemented by PHP.
+Agora recording sample server.
 
 # Prerequisites
 

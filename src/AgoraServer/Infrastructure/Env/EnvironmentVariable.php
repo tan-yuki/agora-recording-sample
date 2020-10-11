@@ -85,7 +85,8 @@ final class EnvironmentVariable
      */
     private function getEnvValue(string $key): string
     {
-        $value = getenv($key);
+        $value = $_ENV[$key];
+
         if (empty($value)) {
             throw new EnvironmentKeyNotFoundException($key);
         }

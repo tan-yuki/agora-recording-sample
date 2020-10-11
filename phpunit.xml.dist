@@ -5,12 +5,4 @@
             <directory>tests/</directory>
         </testsuite>
     </testsuites>
-    <php>
-        <env name="AGORA_APP_ID" value="970ca35de60c44645bbae8a215061b33" />
-        <env name="AGORA_APP_CERTIFICATE" value="5cfd2fd1755d40ecb72977518be15d3b" />
-        <env name="AGORA_RESTFUL_API_CUSTOMER_ID" value="samplecustomerId" />
-        <env name="AGORA_RESTFUL_API_CUSTOMER_SECRET" value="samplecustomersecret" />
-        <env name="AGORA_RECORDING_AWS_ACCESS_TOKEN" value="sampleawstoken" />
-        <env name="AGORA_RECORDING_AWS_SECRET_TOKEN" value="sampleawssecret" />
-    </php>
 </phpunit>

@@ -4,7 +4,7 @@ use DI\ContainerBuilder;
 use AgoraServer\Application\Initializer;
 use Dotenv\Dotenv;
 
-require __DIR__ . '/../../vendor/autoload.php';
+require __DIR__ . '/../../server/vendor/autoload.php';
 
 // Load env file
 $dotenv = Dotenv::createImmutable(__DIR__ . '/../../');

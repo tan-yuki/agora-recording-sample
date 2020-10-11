@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace AgoraServer\Domain\Agora\Entity\Recording;
 
 
-class AWSS3BucketName
+final class AwsS3BucketName
 {
     private string $name;
     public function __construct(string $name)

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService;
 
 use AgoraServer\Domain\Agora\Entity\ChannelName;
-use AgoraServer\Domain\Agora\Entity\Recording\AWSS3BucketName;
+use AgoraServer\Domain\Agora\Entity\Recording\AwsS3BucketName;
 use AgoraServer\Domain\Agora\Entity\Recording\AwsS3BucketNameFactory;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;

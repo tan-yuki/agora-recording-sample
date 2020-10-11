@@ -64,6 +64,13 @@ This project depends on these libraries or product:
 
 ## API
 
+### Basic information
+
+|  | BaseURL |
+|----------|-----------------------|
+| Local | `http://localhost:8888/api/v1/...` |
+| Prod  | `https://${heroku-domain}/api/v1/...` |
+
 ### GET /token
 
 Get a secure token for the Agora project.
@@ -86,7 +93,7 @@ see: https://docs.agora.io/en/Agora%20Platform/token/#a-name--tokenause-a-token-
 #### Example
 
 ```
-$ curl "http://localhost:8888/token?appId=myappid&channelName=mychannelname&userId=1234"
+$ curl "http://localhost:8888/api/v1/token?appId=myappid&channelName=mychannelname&userId=1234"
 ```
 
 ```
@@ -116,7 +123,7 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 #### Example
 
 ```
- curl -s -X POST "http://localhost:8888/recording/start" -d '{
+ curl -s -X POST "http://localhost:8888/api/v1/recording/start" -d '{
   "channelName": "test",
   "userId": 1234
 }' | jq '.'
@@ -153,7 +160,7 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 #### Example
 
 ```
-$ curl -s -X POST "http://localhost:8888/recording/start" -d '{                        [master]
+$ curl -s -X POST "http://localhost:8888/api/v1/recording/start" -d '{                        [master]
   "resourceId": "Etkl6g-zSB7EpP-Da1zN65HXLQnA2s-23cPxAwEFqYaWWQ5AeOQlgEO4SGH5_hg263tLUldqQyZcq4VG4a_MN4-etbhDkfvmnZDDCwTsQI3JLpSBG_SZymZQ0YQ20eTHktAd43wJVHmjsZ2KZah1FgMbuFONuPcijEkJnYDSX6nqkSTdIfZmpRyBSmMTOpJmkkypDkxXmxhn2MlU4MntRbWghyht8dUHwa-54AveVTkplHMoZhsg9ePh54jRTM2FVAM-AdJg8v3F4EYaPNcigym7eLYK9rDybv8zIxLBFGA",
   "sid": "222f6d96464a234078ccf6b4712a63b8",
   "channelName": "test",

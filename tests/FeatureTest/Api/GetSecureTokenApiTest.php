@@ -14,7 +14,7 @@ class GetSecureTokenApiTest extends FeatureBaseTestCase
      */
     public function return_secure_token()
     {
-        $response = $this->runApp('GET', '/token?' . http_build_query([
+        $response = $this->runApp('GET', '/api/v1/token?' . http_build_query([
             GetSecureTokenRequest::PARAM_USER_ID => '1234',
             GetSecureTokenRequest::PARAM_CHANNEL_NAME=> 'channel',
         ]));

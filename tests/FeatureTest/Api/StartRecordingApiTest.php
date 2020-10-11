@@ -45,7 +45,7 @@ class StartRecordingApiTest extends FeatureBaseTestCase
      */
     public function return_200_and_response()
     {
-        $response = $this->runApp('POST', '/recording/start', json_encode([
+        $response = $this->runApp('POST', '/api/v1/recording/start', json_encode([
             StartRecordingRequest::PARAM_USER_ID => '1234',
             StartRecordingRequest::PARAM_CHANNEL_NAME=> 'channel',
         ]));
@@ -57,7 +57,7 @@ class StartRecordingApiTest extends FeatureBaseTestCase
 
         $expectsResponse = self::$returnUseCaseValue->toArray();
         $this->assertSame($expectsResponse['sid'], $responseArray['sid']);
-        $this->assertSame($expectsResponse['resourceId']->value(), $responseArray['res']);
+        $this->assertSame($expectsResponse['resourceId'], $responseArray['resourceId']);
     }
 
 

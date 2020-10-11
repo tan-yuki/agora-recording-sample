@@ -48,7 +48,7 @@ class StopRecordingApiTest extends FeatureBaseTestCase
      */
     public function return_secure_token()
     {
-        $response = $this->runApp('POST', '/recording/stop', json_encode([
+        $response = $this->runApp('POST', '/api/v1/recording/stop', json_encode([
             StopRecordingRequest::PARAM_RESOURCE_ID => 'sample_resource_id',
             StopRecordingRequest::PARAM_SID => 'sample_sid',
             StopRecordingRequest::PARAM_USER_ID => '1234',

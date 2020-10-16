@@ -31,11 +31,11 @@ This project depends on these libraries or product:
    | Key | Description |
    | --- | ----------- |
    | `AGORA_APP_ID`                       | Agora Project AppId. |
-   | `AGORA_APP_CERTIFICATE`              | Agora Project AppCertificate |
-   | `AGORA_RESTFUL_API_CUSTOMER_ID`      | Agora CustomerId for ResfulAPI |
-   | `AGORA_RESTFUL_API_CUSTOMER_SECRET`  | Agora CustomerSecret for RestfulAPI |
-   | `AGORA_RECORDING_AWS_ACCESS_TOKEN`   | AWS access key for uploading recording file to AWS S3 |
-   | `AGORA_RECORDING_AWS_SECRET_TOKEN`   | AWS secret key for uploading recording file to AWS S3 |
+   | `AGORA_APP_CERTIFICATE`              | Agora Project AppCertificate. |
+   | `AGORA_RESTFUL_API_CUSTOMER_ID`      | Agora CustomerId for ResfulAPI. |
+   | `AGORA_RESTFUL_API_CUSTOMER_SECRET`  | Agora CustomerSecret for RestfulAPI. |
+   | `AGORA_RECORDING_AWS_ACCESS_TOKEN`   | AWS access key for uploading recording file to AWS S3. |
+   | `AGORA_RECORDING_AWS_SECRET_TOKEN`   | AWS secret key for uploading recording file to AWS S3. |
    | `AGORA_RECORDING_AWS_S3_BUCKET_NAME` | AWS S3 Bucket name. |
 
 1. Install composer
@@ -160,7 +160,7 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 #### Example
 
 ```
-$ curl -s -X POST "http://localhost:8888/v1/recording/start" -d '{                        [master]
+$ curl -s -X POST "http://localhost:8888/v1/recording/start" -d '{
   "resourceId": "Etkl6g-zSB7EpP-Da1zN65HXLQnA2s-23cPxAwEFqYaWWQ5AeOQlgEO4SGH5_hg263tLUldqQyZcq4VG4a_MN4-etbhDkfvmnZDDCwTsQI3JLpSBG_SZymZQ0YQ20eTHktAd43wJVHmjsZ2KZah1FgMbuFONuPcijEkJnYDSX6nqkSTdIfZmpRyBSmMTOpJmkkypDkxXmxhn2MlU4MntRbWghyht8dUHwa-54AveVTkplHMoZhsg9ePh54jRTM2FVAM-AdJg8v3F4EYaPNcigym7eLYK9rDybv8zIxLBFGA",
   "sid": "222f6d96464a234078ccf6b4712a63b8",
   "channelName": "test",

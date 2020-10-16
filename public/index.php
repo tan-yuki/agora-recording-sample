@@ -1,15 +1,20 @@
 <?php
+declare(strict_types=1);
 
 use DI\ContainerBuilder;
 use AgoraServer\Application\Initializer;
 use Dotenv\Dotenv;
 
-require './vendor/autoload.php';
+const ROOT_PATH = __DIR__ . '/..';
+
+require ROOT_PATH . '/vendor/autoload.php';
+
+$env = $_ENV['AGORA_APP_ENV'] ?? 'DEV';
 
 // Load env file
 // if production, set environment variables directly by Heroku console.
-if ($_ENV['AGORA_APP_ENV'] !== 'PRODUCTION') {
-    $dotenv = Dotenv::createImmutable(__DIR__ . '/../');
+if ($env === 'DEV') {
+    $dotenv = Dotenv::createImmutable(ROOT_PATH);
     $dotenv->load();
 }
 

@@ -30,17 +30,15 @@ final class Route
     }
 
     public function bind(): void {
-        $this->app->group('/api', function(RouteCollectorProxy $group) {
-            $group->group('/v1', function(RouteCollectorProxy $group) {
-                $group->get('/token', function(ServerRequestInterface $request, ResponseInterface $response) {
-                    return $this->getSecureTokenController->execute($request, $response);
-                });
-                $group->post('/recording/start', function(ServerRequestInterface $request, ResponseInterface $response) {
-                    return $this->startRecordingController->execute($request, $response);
-                });
-                $group->post('/recording/stop', function(ServerRequestInterface $request, ResponseInterface $response) {
-                    return $this->stopRecordingController->execute($request, $response);
-                });
+        $this->app->group('/v1', function(RouteCollectorProxy $group) {
+            $group->get('/token', function(ServerRequestInterface $request, ResponseInterface $response) {
+                return $this->getSecureTokenController->execute($request, $response);
+            });
+            $group->post('/recording/start', function(ServerRequestInterface $request, ResponseInterface $response) {
+                return $this->startRecordingController->execute($request, $response);
+            });
+            $group->post('/recording/stop', function(ServerRequestInterface $request, ResponseInterface $response) {
+                return $this->stopRecordingController->execute($request, $response);
             });
         });
     }

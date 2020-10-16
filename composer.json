@@ -28,13 +28,13 @@
   },
   "autoload": {
     "psr-4": {
-      "AgoraServer\\": "./server/src/AgoraServer"
+      "AgoraServer\\": "./src/AgoraServer"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "UnitTest\\": "./server/tests/UnitTest",
-      "FeatureTest\\": "./server/tests/FeatureTest"
+      "UnitTest\\": "./tests/UnitTest",
+      "FeatureTest\\": "./tests/FeatureTest"
     }
   },
   "scripts": {

@@ -39,11 +39,9 @@ class StartApi
                 'cname' => $channelName->value(),
                 'uid' => (string) $userId->value(),
                 'clientRequest' => [
-                    // 'token' => $this->secureTokenFactory->create($channelName, $userId),
+                    'token' => $this->secureTokenFactory->create($channelName, $userId),
                     'recordingConfig' => [
                         'channelType' => 1,    // Live mode only.
-                        // 'decryptionMode' => 3, // AES-256, XTS mode.
-                        // 'secret' => 'password',
                     ],
                     'storageConfig' => [
                         'vendor' => 1, // Amazon S3

@@ -20,10 +20,10 @@ This project depends on these libraries or product:
 # Setup
 
 1. [Setup Heroku](https://devcenter.heroku.com/articles/getting-started-with-php)
-1. copy `.env` file from `.env.sample`
+1. copy `.env` file from `.env.example`
 
     ```
-    cp .env.sample .env
+    cp .env.example .env
     ```
 
 1. Edit `.env`

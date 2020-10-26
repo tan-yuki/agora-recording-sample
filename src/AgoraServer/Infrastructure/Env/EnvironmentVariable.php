@@ -9,6 +9,7 @@ final class EnvironmentVariable
 {
     const KEY_APP_ID = 'AGORA_APP_ID';
     const KEY_APP_CERTIFICATE = 'AGORA_APP_CERTIFICATE';
+    const KEY_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN = 'HEADER_ACCESS_CONTROL_ALLOW_ORIGIN';
     const KEY_RESTFUL_API_CUSTOMER_ID = 'AGORA_RESTFUL_API_CUSTOMER_ID';
     const KEY_RESTFUL_API_CUSTOMER_SECRET = 'AGORA_RESTFUL_API_CUSTOMER_SECRET';
     const KEY_RECORDING_AWS_ACCESS_TOKEN = 'AGORA_RECORDING_AWS_ACCESS_TOKEN';
@@ -31,6 +32,15 @@ final class EnvironmentVariable
     public function getAppCertificate(): string
     {
         return $this->getEnvValue(self::KEY_APP_CERTIFICATE);
+    }
+
+    /**
+     * @return string
+     * @throws EnvironmentKeyNotFoundException
+     */
+    public function getHeaderAccessControlAllowOrigin(): string
+    {
+        return $this->getEnvValue(self::KEY_HEADER_ACCESS_CONTROL_ALLOW_ORIGIN);
     }
 
     /**

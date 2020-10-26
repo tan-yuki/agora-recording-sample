@@ -12,9 +12,10 @@ require ROOT_PATH . '/vendor/autoload.php';
 
 $env = $_ENV['AGORA_APP_ENV'] ?? 'DEV';
 
-// Load env file
-// if production, set environment variables directly by Heroku console.
-if ($env === 'DEV') {
+// Load env file.
+// if `.env` file exits, load this file.
+// (if production, set environment variables directly by Heroku console.)
+if (file_exists(ROOT_PATH . '/.env')) {
     $dotenv = Dotenv::createImmutable(ROOT_PATH);
     $dotenv->load();
 }

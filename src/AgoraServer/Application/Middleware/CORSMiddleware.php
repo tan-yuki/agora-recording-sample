@@ -6,6 +6,7 @@ namespace AgoraServer\Application\Middleware;
 
 
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
+use AgoraServer\Infrastructure\Env\EnvironmentVariable;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -18,12 +19,15 @@ class CORSMiddleware implements MiddlewareInterface
     use ResponseWithJsonTrait;
 
     private ResponseFactoryInterface $responseFactory;
+    private EnvironmentVariable $env;
     private LoggerInterface $logger;
 
     public function __construct(ResponseFactoryInterface $responseFactory,
+                                EnvironmentVariable $env,
                                 LoggerInterface $logger)
     {
         $this->responseFactory = $responseFactory;
+        $this->env = $env;
         $this->logger = $logger;
     }
 
@@ -35,7 +39,7 @@ class CORSMiddleware implements MiddlewareInterface
         $response = $handler->handle($request);
 
         return $response
-            ->withHeader('Access-Control-Allow-Origin', 'http://localhost:3000')
+            ->withHeader('Access-Control-Allow-Origin', $this->env->getHeaderAccessControlAllowOrigin())
             ->withHeader(
                 'Access-Control-Allow-Headers',
                 'X-Requested-With, Content-Type, Accept, Origin, Authorization'

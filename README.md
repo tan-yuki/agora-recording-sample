@@ -32,6 +32,7 @@ This project depends on these libraries or product:
    | --- | ----------- |
    | `AGORA_APP_ID`                       | Agora Project AppId. |
    | `AGORA_APP_CERTIFICATE`              | Agora Project AppCertificate. |
+   | `HEADER_ACCESS_CONTROL_ALLOW_ORIGIN` | `Access-Control-Allow-Origin` Header. |
    | `AGORA_RESTFUL_API_CUSTOMER_ID`      | Agora CustomerId for ResfulAPI. |
    | `AGORA_RESTFUL_API_CUSTOMER_SECRET`  | Agora CustomerSecret for RestfulAPI. |
    | `AGORA_RECORDING_AWS_ACCESS_TOKEN`   | AWS access key for uploading recording file to AWS S3. |

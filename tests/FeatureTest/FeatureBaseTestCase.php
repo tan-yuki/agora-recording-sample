@@ -3,11 +3,14 @@ declare(strict_types=1);
 
 namespace FeatureTest;
 
+use AgoraServer\Application\Config;
 use AgoraServer\Application\Initializer;
 use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
 use Slim\Psr7\Factory\ServerRequestFactory;
+use DI\DependencyException;
+use DI\NotFoundException;
 
 class FeatureBaseTestCase extends TestCase
 {
@@ -20,10 +23,20 @@ class FeatureBaseTestCase extends TestCase
     {
         parent::setup();
 
-        $this->initializer = new Initializer(new ContainerBuilder());
-        $this->containerBuilder = $this->initializer->getContainerBuilder();
+        $builder = new ContainerBuilder();
+
+        $this->initializer = new Initializer($builder, new Config());
+        $this->containerBuilder = $builder;
     }
 
+    /**
+     * @param string $method
+     * @param string $path
+     * @param string $bodyContents
+     * @return ResponseInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     protected function runApp(string $method, string $path, string $bodyContents = ''): ResponseInterface
     {
         $request = (new ServerRequestFactory())->createServerRequest($method, self::URL_DOMAIN . $path);

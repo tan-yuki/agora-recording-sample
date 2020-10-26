@@ -3,49 +3,36 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application;
 
-use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
 use AgoraServer\Application\Route\Route;
 use DI\Bridge\Slim\Bridge;
 use DI\ContainerBuilder;
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
-use Psr\Http\Message\ResponseFactoryInterface;
-use Psr\Log\LoggerInterface;
 use Slim\App;
-use Slim\Psr7\Factory\ResponseFactory;
+use DI\DependencyException;
+use DI\NotFoundException;
 
 final class Initializer
 {
-    private ContainerBuilder $builder;
+    private Config $config;
+    private ContainerBuilder $containerBuilder;
 
-    public function __construct(ContainerBuilder $builder)
+    public function __construct(ContainerBuilder $containerBuilder,
+                                Config $config)
     {
-        $this->builder = $builder;
-
-        $this->builder->addDefinitions([
-            LoggerInterface::class => function () {
-                $logger = new Logger('agora');
-                $logger->pushHandler(new StreamHandler('php://stderr', Logger::WARNING));
-
-                return $logger;
-            },
-            ResponseFactoryInterface::class => function () {
-                return new ResponseFactory();
-            },
-        ]);
+        $this->config = $config;
+        $this->containerBuilder = $config->addDefinitions($containerBuilder);
     }
 
-    public function getContainerBuilder(): ContainerBuilder
-    {
-        return $this->builder;
-    }
-
+    /**
+     * @return App
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function createApplication(): App
     {
-        $container = $this->builder->build();
+        $container = $this->containerBuilder->build();
 
         $app = Bridge::create($container);
-        $app->addMiddleware($container->get(ExceptionHandleMiddleware::class));
+        $app = $this->config->addMiddleware($app, $container);
 
         /** @var Route $router */
         $route = $container->get(Route::class);

@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
+use Dotenv\Dotenv;
 use DI\ContainerBuilder;
 use AgoraServer\Application\Initializer;
-use Dotenv\Dotenv;
+use AgoraServer\Application\Config;
 
 const ROOT_PATH = __DIR__ . '/..';
 
@@ -19,7 +20,7 @@ if ($env === 'DEV') {
 }
 
 // Initialize application
-$initializer = new Initializer(new ContainerBuilder());
+$initializer = new Initializer(new ContainerBuilder(), new Config());
 $app = $initializer->createApplication();
 
 // Run api server

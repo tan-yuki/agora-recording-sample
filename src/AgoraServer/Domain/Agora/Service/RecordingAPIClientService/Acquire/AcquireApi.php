@@ -1,17 +1,11 @@
 <?php
 declare(strict_types=1);
 
-namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService;
+namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Acquire;
 
-use AgoraServer\Domain\Agora\Entity\Project\AppId;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
-use AgoraServer\Domain\Agora\Entity\Project\AppIdFactory;
-use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
-use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKey;
-use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKeyFactory;
 use AgoraServer\Domain\Agora\Entity\UserId;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\Request;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AgoraRecordingAPIClient;
 
 /**
  * Class AcquireApi
@@ -26,10 +20,9 @@ class AcquireApi
         $this->client = $client;
     }
 
-    public function __invoke(ChannelName $channelName, UserId $userId): ResourceId
+    public function __invoke(ChannelName $channelName, UserId $userId): AcquireApiResponse
     {
         $responseJson = $this->client->callAgoraApi('/acquire', [
-
             'cname' => $channelName->value(),
             'uid' => (string) $userId->value(),
             'clientRequest' => [
@@ -37,7 +30,7 @@ class AcquireApi
             ],
         ]);
 
-        return new ResourceId($responseJson['resourceId']);
+        return new AcquireApiResponse($responseJson);
     }
 
 }

@@ -8,10 +8,10 @@ namespace AgoraServer\Application\Controller\Recording\StopRecording;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
-use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AcquireApi;
-use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StartApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Acquire\AcquireApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Start\StartApi;
 use AgoraServer\Domain\Agora\Entity\UserId;
-use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StopApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop\StopApi;
 
 /**
  * Class StartRecordingUseCase
@@ -30,10 +30,14 @@ class StopRecordingUseCase
     public function __invoke(ResourceId $resourceId,
                              RecordingId $recordingId,
                              ChannelName $channelName,
-                             UserId $userId): array
+                             UserId $userId): StopResponseDto
     {
         $stopApi = $this->stopApi;
-        return $stopApi($resourceId, $recordingId, $channelName, $userId);
+        $stopApiResponse = $stopApi($resourceId, $recordingId, $channelName, $userId);
+
+        return new StopResponseDto(
+            $stopApiResponse->getUploadingStatus(),
+            $stopApiResponse->getUploadFiles());
     }
 
 }

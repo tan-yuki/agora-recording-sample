@@ -9,24 +9,33 @@ use AgoraServer\Application\Controller\Recording\StopRecording\StopRecordingUseC
 use AgoraServer\Domain\Agora\Entity\Recording\UploadFile;
 use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
 use AgoraServer\Domain\Agora\Entity\UserId;
-use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StopApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop\StopApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop\StopApiResponse;
 use FeatureTest\FeatureBaseTestCase;
 
 class StopRecordingApiTest extends FeatureBaseTestCase
 {
-    private static array $returnUseCaseValue;
+    private static StopApiResponse $stopApiResponse;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$returnUseCaseValue= [
-            UploadingStatus::UPLOADED(),
-            [
-                new UploadFile("aaa.mp4", new UserId(1), 1),
-                new UploadFile("bbb.mp4", new UserId(2), 2),
+        self::$stopApiResponse = new StopApiResponse([
+            'uploadingStatus' => 'uploaded',
+            'fileList' => [
+                [
+                    'filename' => 'aaa.mp4',
+                    'uid' => 1,
+                    'sliceStartTime' => 1,
+                ],
+                [
+                    'filename' => 'bbb.mp4',
+                    'uid' => 2,
+                    'sliceStartTime' => 2,
+                ],
             ],
-        ];
+        ]);
     }
 
     protected function setUp(): void
@@ -37,7 +46,7 @@ class StopRecordingApiTest extends FeatureBaseTestCase
             StopApi::class => function() {
                 $mock = $this->createMock(StopApi::class);
                 $mock->method('__invoke')
-                    ->willReturn(self::$returnUseCaseValue);
+                    ->willReturn(self::$stopApiResponse);
 
                 return $mock;
             },

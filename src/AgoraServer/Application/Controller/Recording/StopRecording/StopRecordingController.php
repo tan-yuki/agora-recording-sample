@@ -42,23 +42,14 @@ final class StopRecordingController implements ControllerInterface
         $validParams = $this->request->validate($request);
         $useCase = $this->useCase;
 
-        /** @var UploadingStatus $uploadingStatus */
-        /** @var UploadFile[] $uploadFiles*/
-        list($uploadingStatus, $uploadFiles) = $useCase(
+        $responseDto = $useCase(
             new ResourceId($validParams[StopRecordingRequest::PARAM_RESOURCE_ID]),
             new RecordingId($validParams[StopRecordingRequest::PARAM_SID]),
             new ChannelName($validParams[GetSecureTokenRequest::PARAM_CHANNEL_NAME]),
             new UserId($validParams[GetSecureTokenRequest::PARAM_USER_ID]),
         );
 
-        return $this->withJson($response, [
-            'status' => $uploadingStatus->getValue(),
-            'files' => array_map(function(UploadFile $f) {
-                return [
-                    'fileName' => $f->getFileName(),
-                ];
-            }, $uploadFiles),
-        ]);
+        return $this->withJson($response, $responseDto->toArray());
     }
 
 }

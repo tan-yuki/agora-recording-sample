@@ -10,8 +10,7 @@ trait ResponseWithJsonTrait
     private function withJson(ResponseInterface $response, array $body): ResponseInterface
     {
         $response->getBody()->write(json_encode($body, JSON_UNESCAPED_UNICODE));
-        $response->withHeader('Content-Type', 'application/json');
 
-        return $response;
+        return $response->withHeader('Content-Type', 'application/json');
     }
 }

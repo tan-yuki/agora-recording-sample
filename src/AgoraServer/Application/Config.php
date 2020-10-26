@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace AgoraServer\Application;
 
 
+use AgoraServer\Application\Middleware\CORSMiddleware;
 use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -48,8 +49,8 @@ class Config
      */
     public function addMiddleware(App $app, Container $container): App
     {
-        $app->addMiddleware($container->get(ExceptionHandleMiddleware::class));
-
-        return $app;
+        return $app
+            ->addMiddleware($container->get(ExceptionHandleMiddleware::class))
+            ->addMiddleware($container->get(CORSMiddleware::class));
     }
 }

@@ -9,7 +9,7 @@ use FeatureTest\FeatureBaseTestCase;
 
 class GetSecureTokenApiTest extends FeatureBaseTestCase
 {
-/**
+    /**
      * @test
      */
     public function return_secure_token()

@@ -33,9 +33,8 @@ trait CreateRequestExceptionFromValidationErrorTrait
             }
         }
         $exception = new HttpBadRequestException($request);
-        $exception->setDescription(join(', ', $message_list));
 
-        return $exception;
+        return $exception->setDescription(join(', ', $message_list));
     }
 
 }

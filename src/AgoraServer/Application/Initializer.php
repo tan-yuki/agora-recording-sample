@@ -26,6 +26,7 @@ final class Initializer
      * @return App
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws \Exception
      */
     public function createApplication(): App
     {

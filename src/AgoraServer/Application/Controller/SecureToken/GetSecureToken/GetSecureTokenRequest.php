@@ -3,13 +3,14 @@ declare(strict_types=1);
 
 namespace AgoraServer\Application\Controller\SecureToken\GetSecureToken;
 
+use AgoraServer\Application\Controller\Base\RequestInterface;
 use AgoraServer\Application\Shared\CreateRequestExceptionFromValidationErrorTrait;
 use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
 use Psr\Http\Message\ServerRequestInterface;
 use Slim\Exception\HttpBadRequestException;
 use Valitron\Validator;
 
-final class GetSecureTokenRequest
+final class GetSecureTokenRequest implements RequestInterface
 {
     use RequestUriQueryToArrayTrait;
     use CreateRequestExceptionFromValidationErrorTrait;

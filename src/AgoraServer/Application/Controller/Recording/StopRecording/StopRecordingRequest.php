@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace AgoraServer\Application\Controller\Recording\StopRecording;
 
 
+use AgoraServer\Application\Controller\Base\RequestInterface;
 use AgoraServer\Application\Shared\CreateRequestExceptionFromValidationErrorTrait;
-use AgoraServer\Application\Shared\RequestUriQueryToArrayTrait;
+use AgoraServer\Application\Shared\RequestBodyToArrayTrait;
 use Psr\Http\Message\ServerRequestInterface;
-use Slim\Exception\HttpBadRequestException;
 use Valitron\Validator;
 
-class StopRecordingRequest
+final class StopRecordingRequest implements RequestInterface
 {
-    use RequestUriQueryToArrayTrait;
     use CreateRequestExceptionFromValidationErrorTrait;
+    use RequestBodyToArrayTrait;
 
     const PARAM_CHANNEL_NAME = 'channelName';
     const PARAM_USER_ID = 'userId';
@@ -22,13 +22,11 @@ class StopRecordingRequest
     const PARAM_SID = 'sid';
 
     /**
-     * @param ServerRequestInterface $request
-     * @return array
-     * @throws HttpBadRequestException
+     * @inheritDoc
      */
     public function validate(ServerRequestInterface $request): array
     {
-        $requestJson = json_decode((string) $request->getBody(), true);
+        $requestJson = $this->toArrayFromRequestBody($request);
         $v = new Validator($requestJson);
 
         $v->rule('required', [

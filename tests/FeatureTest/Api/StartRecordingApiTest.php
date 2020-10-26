@@ -5,24 +5,23 @@ declare(strict_types=1);
 namespace FeatureTest\Api;
 
 use AgoraServer\Application\Controller\Recording\StartRecording\StartRecordingRequest;
-use AgoraServer\Application\Controller\Recording\StartRecording\StartRecordingUseCase;
-use AgoraServer\Application\Controller\Recording\StartRecording\StartResponseDto;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AcquireApi;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StartApi;
 use FeatureTest\FeatureBaseTestCase;
 
 class StartRecordingApiTest extends FeatureBaseTestCase
 {
-    private static StartResponseDto $returnUseCaseValue;
+    private static ResourceId $resourceId;
+    private static RecordingId $recordingId;
 
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
 
-        self::$returnUseCaseValue= new StartResponseDto(
-            new ResourceId('this_is_resource_id'),
-            new RecordingId('this_is_recording_id')
-        );
+        self::$resourceId = new ResourceId('this_is_resource_id');
+        self::$recordingId = new RecordingId('this_is_recording_id');
     }
 
     protected function setUp(): void
@@ -30,10 +29,17 @@ class StartRecordingApiTest extends FeatureBaseTestCase
         parent::setUp();
 
         $this->containerBuilder->addDefinitions([
-            StartRecordingUseCase::class => function() {
-                $mock = $this->createMock(StartRecordingUseCase::class);
+            AcquireApi::class => function() {
+                $mock = $this->createMock(AcquireApi::class);
                 $mock->method('__invoke')
-                    ->willReturn(self::$returnUseCaseValue);
+                    ->willReturn(self::$resourceId);
+
+                return $mock;
+            },
+            StartApi::class => function() {
+                $mock = $this->createMock(StartApi::class);
+                $mock->method('__invoke')
+                    ->willReturn(self::$recordingId);
 
                 return $mock;
             },
@@ -55,9 +61,8 @@ class StartRecordingApiTest extends FeatureBaseTestCase
         $this->assertArrayHasKey('sid', $responseArray);
         $this->assertArrayHasKey('resourceId', $responseArray);
 
-        $expectsResponse = self::$returnUseCaseValue->toArray();
-        $this->assertSame($expectsResponse['sid'], $responseArray['sid']);
-        $this->assertSame($expectsResponse['resourceId'], $responseArray['resourceId']);
+        $this->assertSame(self::$recordingId->value(), $responseArray['sid']);
+        $this->assertSame(self::$resourceId->value(), $responseArray['resourceId']);
     }
 
 

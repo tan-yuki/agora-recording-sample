@@ -9,6 +9,7 @@ use AgoraServer\Application\Controller\Recording\StopRecording\StopRecordingUseC
 use AgoraServer\Domain\Agora\Entity\Recording\UploadFile;
 use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
 use AgoraServer\Domain\Agora\Entity\UserId;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\StopApi;
 use FeatureTest\FeatureBaseTestCase;
 
 class StopRecordingApiTest extends FeatureBaseTestCase
@@ -33,8 +34,8 @@ class StopRecordingApiTest extends FeatureBaseTestCase
         parent::setUp();
 
         $this->containerBuilder->addDefinitions([
-            StopRecordingUseCase::class => function() {
-                $mock = $this->createMock(StopRecordingUseCase::class);
+            StopApi::class => function() {
+                $mock = $this->createMock(StopApi::class);
                 $mock->method('__invoke')
                     ->willReturn(self::$returnUseCaseValue);
 

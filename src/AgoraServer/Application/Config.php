@@ -50,7 +50,7 @@ class Config
     public function addMiddleware(App $app, Container $container): App
     {
         return $app
-            ->addMiddleware($container->get(ExceptionHandleMiddleware::class))
-            ->addMiddleware($container->get(CORSMiddleware::class));
+            ->addMiddleware($container->get(CORSMiddleware::class))
+            ->addMiddleware($container->get(ExceptionHandleMiddleware::class));
     }
 }

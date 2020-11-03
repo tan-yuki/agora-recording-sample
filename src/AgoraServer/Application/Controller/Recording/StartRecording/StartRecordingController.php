@@ -7,6 +7,7 @@ use AgoraServer\Application\Controller\Base\ControllerInterface;
 use AgoraServer\Application\Controller\SecureToken\GetSecureToken\GetSecureTokenRequest;
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Project\SecureToken;
 use AgoraServer\Domain\Agora\Entity\UserId;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -39,8 +40,9 @@ final class StartRecordingController implements ControllerInterface
         $useCase = $this->useCase;
 
         $dto = $useCase(
-            new ChannelName($validParams[GetSecureTokenRequest::PARAM_CHANNEL_NAME]),
-            new UserId($validParams[GetSecureTokenRequest::PARAM_USER_ID]),
+            new ChannelName($validParams[StartRecordingRequest::PARAM_CHANNEL_NAME]),
+            new UserId($validParams[StartRecordingRequest::PARAM_USER_ID]),
+            new SecureToken($validParams[StartRecordingRequest::PARAM_TOKEN]),
         );
 
         return $this->withJson($response, $dto->toArray());

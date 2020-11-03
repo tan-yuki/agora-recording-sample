@@ -18,6 +18,7 @@ final class StartRecordingRequest implements RequestInterface
 
     const PARAM_CHANNEL_NAME = 'channelName';
     const PARAM_USER_ID = 'userId';
+    const PARAM_TOKEN = 'token';
 
     /**
      * @inheritDoc
@@ -29,7 +30,8 @@ final class StartRecordingRequest implements RequestInterface
 
         $v->rule('required', [
             self::PARAM_CHANNEL_NAME,
-            self::PARAM_USER_ID
+            self::PARAM_USER_ID,
+            self::PARAM_TOKEN,
         ]);
 
         $v->rule('numeric', self::PARAM_USER_ID);
@@ -41,6 +43,7 @@ final class StartRecordingRequest implements RequestInterface
         return [
             self::PARAM_CHANNEL_NAME => $requestJson[self::PARAM_CHANNEL_NAME],
             self::PARAM_USER_ID      => (int) $requestJson[self::PARAM_USER_ID],
+            self::PARAM_TOKEN        => $requestJson[self::PARAM_TOKEN],
         ];
     }
 

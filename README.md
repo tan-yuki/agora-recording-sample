@@ -113,6 +113,7 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 | --- | --- | --- | --- |
 | channelName | ✔ | string | Unique channel name for the Agora RTC session. |
 | userId      | ✔ | int    | The user id in the Agora application. |
+| token       | ✔ | string | Token getting by `GET /token` API. |
 
 #### Response
 
@@ -125,6 +126,7 @@ see: https://docs.agora.io/en/cloud-recording/cloud_recording_rest?platform=All%
 
 ```
  curl -s -X POST "http://localhost:8888/v1/recording/start" -d '{
+  "token": "005AQAoADk2RjhCQTI1QTNENzIyMUFGRDIxNEE3ODY0OTlCNUREOUIxMzBEQUQQAL3bq",
   "channelName": "test",
   "userId": 1234
 }' | jq '.'

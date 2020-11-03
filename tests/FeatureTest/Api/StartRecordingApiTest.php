@@ -60,6 +60,7 @@ class StartRecordingApiTest extends FeatureBaseTestCase
         $response = $this->runApp('POST', '/v1/recording/start', json_encode([
             StartRecordingRequest::PARAM_USER_ID => '1234',
             StartRecordingRequest::PARAM_CHANNEL_NAME=> 'channel',
+            StartRecordingRequest::PARAM_TOKEN => 'abcdefg',
         ]));
 
         $this->assertSame(200, $response->getStatusCode(), sprintf('Error message: %s', $response->getBody()));

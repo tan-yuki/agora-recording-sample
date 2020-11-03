@@ -6,6 +6,7 @@ namespace AgoraServer\Application\Controller\Recording\StartRecording;
 
 
 use AgoraServer\Domain\Agora\Entity\ChannelName;
+use AgoraServer\Domain\Agora\Entity\Project\SecureToken;
 use AgoraServer\Domain\Agora\Entity\Recording\RecordingId;
 use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Acquire\AcquireApi;
 use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Start\StartApi;
@@ -28,13 +29,9 @@ class StartRecordingUseCase
         $this->startApi = $startApi;
     }
 
-    /**
-     * @param ChannelName $channelName
-     * @param UserId      $userId
-     *
-     * @return StartResponseDto
-     */
-    public function __invoke(ChannelName $channelName, UserId $userId): StartResponseDto
+    public function __invoke(ChannelName $channelName,
+                             UserId $userId,
+                             SecureToken $token): StartResponseDto
     {
         // Get resource id from acquire api
         $acquireApi = $this->acquireApi;
@@ -43,7 +40,7 @@ class StartRecordingUseCase
 
         // Get recording id from start api
         $startApi = $this->startApi;
-        $startApiResponse = $startApi($resourceId, $channelName, $userId);
+        $startApiResponse = $startApi($resourceId, $channelName, $userId, $token);
 
         return new StartResponseDto($resourceId, $startApiResponse->getRecordingId());
     }

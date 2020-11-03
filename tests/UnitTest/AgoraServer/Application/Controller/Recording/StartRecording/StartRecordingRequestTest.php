@@ -19,6 +19,7 @@ class StartRecordingRequestTest extends TestCase
     private const VALID_PARAMS = [
         StartRecordingRequest::PARAM_CHANNEL_NAME => 'sample_channel_name',
         StartRecordingRequest::PARAM_USER_ID => '1234',
+        StartRecordingRequest::PARAM_TOKEN => 'abcdefg',
     ];
 
     private function createServerRequest(array $params): ServerRequestInterface
@@ -44,6 +45,11 @@ class StartRecordingRequestTest extends TestCase
             'userIdがない' => [
                 array_values(array_diff_key(self::VALID_PARAMS, [
                     StartRecordingRequest::PARAM_USER_ID,
+                ]))
+            ],
+            'tokenがない' => [
+                array_values(array_diff_key(self::VALID_PARAMS, [
+                    StartRecordingRequest::PARAM_TOKEN,
                 ]))
             ],
             'userIdが文字列' => [

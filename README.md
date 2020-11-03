@@ -94,7 +94,7 @@ see: https://docs.agora.io/en/Agora%20Platform/token/#a-name--tokenause-a-token-
 #### Example
 
 ```
-$ curl "http://localhost:8888/v1/token?appId=myappid&channelName=mychannelname&userId=1234"
+$ curl "http://localhost:8888/v1/token?channelName=mychannelname&userId=1234"
 ```
 
 ```

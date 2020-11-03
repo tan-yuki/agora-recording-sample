@@ -23,4 +23,16 @@ class GetSecureTokenApiTest extends FeatureBaseTestCase
         $this->assertArrayHasKey('token', $this->toArrayResponse($response));
     }
 
+    /**
+     * @test
+     */
+    public function bad_request()
+    {
+        $response = $this->runApp('GET', '/v1/token?' . http_build_query([
+            GetSecureTokenRequest::PARAM_USER_ID => '1234',
+        ]));
+
+        $this->assertSame(400, $response->getStatusCode());
+        $this->assertJson((string) $response->getBody());
+    }
 }

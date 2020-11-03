@@ -37,6 +37,8 @@ final class Initializer
 
         /** @var Route $router */
         $route = $container->get(Route::class);
+
+        $route->setApp($app);
         $route->bind();
 
         return $app;

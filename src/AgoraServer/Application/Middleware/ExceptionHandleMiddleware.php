@@ -9,10 +9,9 @@ use AgoraServer\Application\Shared\ResponseWithJsonTrait;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
 use Psr\Log\LoggerInterface;
-use Slim\Exception\HttpException;
+use Slim\Exception\HttpBadRequestException;
 use Exception;
 
 class ExceptionHandleMiddleware implements MiddlewareInterface
@@ -29,16 +28,14 @@ class ExceptionHandleMiddleware implements MiddlewareInterface
         $this->logger = $logger;
     }
 
-    public function process(
+    public function __invoke(
         ServerRequestInterface $request,
         RequestHandlerInterface $handler
     ): ResponseInterface
     {
         try {
             return $handler->handle($request);
-        } catch (HttpException $httpException) {
-            $this->logger->error($httpException);
-
+        } catch (HttpBadRequestException $httpException) {
             $response = $this->responseFactory->createResponse()->withStatus($httpException->getCode());
             return $this->withJson($response, [
                 'message' => $httpException->getDescription(),

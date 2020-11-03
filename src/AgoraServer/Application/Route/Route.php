@@ -14,22 +14,29 @@ use Slim\Routing\RouteCollectorProxy;
 final class Route
 {
     private App $app;
-
     private GetSecureTokenController $getSecureTokenController;
     private StartRecordingController $startRecordingController;
     private StopRecordingController $stopRecordingController;
 
-    public function __construct(App $app,
-                                GetSecureTokenController $getSecureTokenController,
+    public function __construct(GetSecureTokenController $getSecureTokenController,
                                 StartRecordingController $startRecordingController,
                                 StopRecordingController $stopRecordingController) {
-        $this->app = $app;
         $this->getSecureTokenController = $getSecureTokenController;
         $this->startRecordingController = $startRecordingController;
         $this->stopRecordingController = $stopRecordingController;
     }
 
+    public function setApp(App $app)
+    {
+        $this->app = $app;
+    }
+
     public function bind(): void {
+        // for CORS
+        $this->app->options('/{routes:.+}', function ($request, $response) {
+            return $response;
+        });
+
         $this->app->group('/v1', function(RouteCollectorProxy $group) {
             $group->get('/token', function(ServerRequestInterface $request, ResponseInterface $response) {
                 return $this->getSecureTokenController->execute($request, $response);

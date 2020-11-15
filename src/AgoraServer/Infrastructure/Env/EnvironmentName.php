@@ -11,6 +11,9 @@ use MyCLabs\Enum\Enum;
 /**
  * Environment name.
  * Class EnvironmentName
+ *
+ * @method static self DEV()
+ * @method static self PRODUCTION()
  * @package AgoraServer\Infrastructure\Env
  */
 final class EnvironmentName extends Enum

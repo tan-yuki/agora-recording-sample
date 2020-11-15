@@ -15,6 +15,7 @@ use GuzzleHttp\Client;
 use GuzzleHttp\HandlerStack;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Monolog\Formatter\LineFormatter;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -35,7 +36,19 @@ class Config
     private function defineLogger(EnvironmentName $environmentName): LoggerInterface
     {
         $logger = new Logger('agora');
-        $logger->pushHandler(new StreamHandler('php://stderr', $environmentName->getLoggerLevel()));
+        $handler = new StreamHandler('php://stderr', $environmentName->getLoggerLevel());
+
+        if ($environmentName->equals(EnvironmentName::DEV())) {
+            // Allow inline line break in debug environment.
+            // see: https://stepanoff.org/wordpress/2017/11/13/allow-inline-line-breaks-for-monolog/
+            $lineFormatter = new LineFormatter(
+                null, null, true, true
+            );
+
+            $handler->setFormatter($lineFormatter);
+        }
+
+        $logger->pushHandler($handler);
 
         return $logger;
     }
@@ -61,7 +74,17 @@ class Config
                 $stack->push(
                     Middleware::log(
                         $logger,
-                        new MessageFormatter('{req_body} - {res_body}')
+                        new MessageFormatter(<<<EOL
+
+Call internal API.
+>>> [Request]
+{request}
+
+<<< [Response]
+{response}
+
+EOL),
+                        'debug'
                     )
                 );
 

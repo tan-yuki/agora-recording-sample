@@ -7,16 +7,12 @@ namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop;
 
 use AgoraServer\Domain\Agora\Entity\Recording\UploadFile;
 use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
-use AgoraServer\Domain\Agora\Entity\UserId;
 
 final class StopApiResponse
 {
     private UploadingStatus $uploadingStatus;
 
-    /**
-     * @var UploadFile[]
-     */
-    private array $uploadingFiles;
+    private UploadFile $uploadingFile;
 
     /**
      * StopApiResponse constructor.
@@ -24,14 +20,9 @@ final class StopApiResponse
      */
     public function __construct(array $responseJson)
     {
-        $this->uploadingStatus = new UploadingStatus($responseJson['uploadingStatus']);
-        $this->uploadingFiles = array_map(function($file) {
-            return new UploadFile(
-                $file['filename'],
-                new UserId($file['uid']),
-                $file['sliceStartTime']
-            );
-        }, $responseJson['fileList']);
+        $serverResponse = $responseJson['serverResponse'];
+        $this->uploadingStatus = new UploadingStatus($serverResponse['uploadingStatus']);
+        $this->uploadingFile = new UploadFile($serverResponse['fileList']);
     }
 
     public function getUploadingStatus(): UploadingStatus
@@ -39,12 +30,9 @@ final class StopApiResponse
         return $this->uploadingStatus;
     }
 
-    /**
-     * @return UploadFile[]
-     */
-    public function getUploadFiles(): array
+    public function getUploadFile(): UploadFile
     {
-        return $this->uploadingFiles;
+        return $this->uploadingFile;
     }
 
 }

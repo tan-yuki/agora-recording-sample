@@ -37,7 +37,7 @@ class StopRecordingUseCase
 
         return new StopResponseDto(
             $stopApiResponse->getUploadingStatus(),
-            $stopApiResponse->getUploadFiles());
+            $stopApiResponse->getUploadFile());
     }
 
 }

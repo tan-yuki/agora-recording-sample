@@ -22,19 +22,10 @@ class StopRecordingApiTest extends FeatureBaseTestCase
         parent::setUpBeforeClass();
 
         self::$stopApiResponse = new StopApiResponse([
-            'uploadingStatus' => 'uploaded',
-            'fileList' => [
-                [
-                    'filename' => 'aaa.mp4',
-                    'uid' => 1,
-                    'sliceStartTime' => 1,
-                ],
-                [
-                    'filename' => 'bbb.mp4',
-                    'uid' => 2,
-                    'sliceStartTime' => 2,
-                ],
-            ],
+            'serverResponse' => [
+                'uploadingStatus' => 'uploaded',
+                'fileList' => 'aaa.m3u8',
+            ]
         ]);
     }
 
@@ -68,13 +59,10 @@ class StopRecordingApiTest extends FeatureBaseTestCase
         $this->assertSame(200, $response->getStatusCode(), sprintf('Error message: %s', $response->getBody()));
         $responseArray = $this->toArrayResponse($response);
         $this->assertArrayHasKey('status', $responseArray);
-        $this->assertArrayHasKey('files', $responseArray);
+        $this->assertArrayHasKey('file', $responseArray);
 
         $this->assertSame(UploadingStatus::UPLOADED()->getValue(), $responseArray['status']);
-        $this->assertSame([
-            ['fileName' => 'aaa.mp4'],
-            ['fileName' => 'bbb.mp4'],
-        ], $responseArray['files']);
+        $this->assertSame('aaa.m3u8', $responseArray['file']);
     }
 
 

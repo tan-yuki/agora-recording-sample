@@ -1,9 +1,7 @@
 <?php
 declare(strict_types=1);
 
-
 namespace AgoraServer\Application\Controller\Recording\StopRecording;
-
 
 use AgoraServer\Domain\Agora\Entity\Recording\UploadFile;
 use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
@@ -11,33 +9,20 @@ use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
 final class StopResponseDto
 {
     private UploadingStatus $uploadingStatus;
+    private UploadFile $uploadFile;
 
-    /**
-     * @var UploadFile[]
-     */
-    private array $uploadFiles;
-
-    /**
-     * StopResponseDto constructor.
-     * @param UploadingStatus $uploadingStatus
-     * @param UploadFile[] $uploadFiles
-     */
     public function __construct(UploadingStatus $uploadingStatus,
-                                array $uploadFiles)
+                                UploadFile $uploadFile)
     {
         $this->uploadingStatus = $uploadingStatus;
-        $this->uploadFiles = $uploadFiles;
+        $this->uploadFile = $uploadFile;
     }
 
     public function toArray(): array
     {
         return [
             'status' => $this->uploadingStatus->getValue(),
-            'files' => array_map(function(UploadFile $f) {
-                return [
-                    'fileName' => $f->getFileName(),
-                ];
-            }, $this->uploadFiles),
+            'file' => $this->uploadFile->getFileName(),
         ];
     }
 

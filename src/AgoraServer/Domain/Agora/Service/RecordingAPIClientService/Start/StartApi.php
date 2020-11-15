@@ -5,12 +5,12 @@ namespace AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Start;
 
 use AgoraServer\Domain\Agora\Entity\ChannelName;
 use AgoraServer\Domain\Agora\Entity\Project\SecureToken;
+use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentials;
+use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentialsFactory;
 use AgoraServer\Domain\Agora\Entity\Recording\AwsS3BucketName;
 use AgoraServer\Domain\Agora\Entity\Recording\AwsS3BucketNameFactory;
 use AgoraServer\Domain\Agora\Entity\Recording\ResourceId;
 use AgoraServer\Domain\Agora\Entity\UserId;
-use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentials;
-use AgoraServer\Domain\Agora\Entity\Recording\AwsCredentialsFactory;
 use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AgoraRecordingAPIClient;
 
 class StartApi
@@ -23,8 +23,8 @@ class StartApi
                                 AwsS3BucketNameFactory $awsS3BucketNameFactory,
                                 AwsCredentialsFactory $awsCredentialsFactory)
     {
-        $this->client = $client;
-        $this->bucketName = $awsS3BucketNameFactory->create();
+        $this->client         = $client;
+        $this->bucketName     = $awsS3BucketNameFactory->create();
         $this->awsCredentials = $awsCredentialsFactory->create();
     }
 
@@ -36,17 +36,28 @@ class StartApi
         $responseJson = $this->client->callAgoraApi(
             sprintf('/resourceid/%s/mode/mix/start', $resourceId->value()),
             [
-                'cname' => $channelName->value(),
-                'uid' => (string) $userId->value(),
+                'cname'         => $channelName->value(),
+                'uid'           => (string)$userId->value(),
                 'clientRequest' => [
-                    'token' => $token->value(),
+                    'token'           => $token->value(),
                     'recordingConfig' => [
-                        'channelType' => 1,    // Live mode only.
+                        'channelType'        => 1, // Live broadcast.
+                        'streamTypes'        => 2, // Subscribes to both audio and video streams.
+                        'audioProfile'       => 1, // Sample rate of 48 kHz, music encoding, mono, and a bitrate of up to 128 Kbps.
+                        'videoStreamType'    => 1, // low quality stream.
+                        'transcodingConfig'  => [
+                            'height'           => 640,
+                            'width'            => 360,
+                            'bitrate'          => 500,
+                            'fps'              => 15,
+                            'mixedVideoLayout' => 1,
+                            'backgroundColor'  => '#FF0000',
+                        ],
                     ],
-                    'storageConfig' => [
-                        'vendor' => 1, // Amazon S3
-                        'region' => 10, // AP_NORTHEAST_1
-                        'bucket' => $this->bucketName->value(),
+                    'storageConfig'   => [
+                        'vendor'    => 1, // Amazon S3
+                        'region'    => 10, // AP_NORTHEAST_1
+                        'bucket'    => $this->bucketName->value(),
                         'accessKey' => $this->awsCredentials->getAccessToken(),
                         'secretKey' => $this->awsCredentials->getSecretToken(),
                     ]

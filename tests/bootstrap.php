@@ -6,6 +6,6 @@ use Dotenv\Dotenv;
 require __DIR__ . '/../vendor/autoload.php';
 
 // Load env file from sample file
-$dotenv = Dotenv::createImmutable(__DIR__ . '/../', '.env.test');
+$dotenv = Dotenv::createImmutable(__DIR__ . '/../');
 $dotenv->load();
 

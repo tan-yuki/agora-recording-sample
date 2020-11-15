@@ -11,18 +11,12 @@ use AgoraServer\Domain\Agora\Entity\Recording\UploadingStatus;
 final class StopApiResponse
 {
     private UploadingStatus $uploadingStatus;
-
     private UploadFile $uploadingFile;
 
-    /**
-     * StopApiResponse constructor.
-     * @param array $responseJson
-     */
-    public function __construct(array $responseJson)
+    public function __construct(UploadingStatus $status, UploadFile $file)
     {
-        $serverResponse = $responseJson['serverResponse'];
-        $this->uploadingStatus = new UploadingStatus($serverResponse['uploadingStatus']);
-        $this->uploadingFile = new UploadFile($serverResponse['fileList']);
+        $this->uploadingStatus = $status;
+        $this->uploadingFile = $file;
     }
 
     public function getUploadingStatus(): UploadingStatus

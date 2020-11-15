@@ -15,14 +15,17 @@ use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\AgoraRecordingAPI
 class StopApi
 {
     private AgoraRecordingAPIClient $client;
+    private StopApiResponseFactory $responseFactory;
     private SecureTokenFactory $secureTokenFactory;
     private AwsCredentials $awsCredentials;
 
     public function __construct(AgoraRecordingAPIClient $client,
+                                StopApiResponseFactory $responseFactory,
                                 SecureTokenFactory  $secureTokenFactory,
                                 AwsCredentialsFactory $awsCredentialsFactory)
     {
         $this->client = $client;
+        $this->responseFactory = $responseFactory;
         $this->secureTokenFactory = $secureTokenFactory;
         $this->awsCredentials = $awsCredentialsFactory->create();
     }
@@ -40,7 +43,8 @@ class StopApi
                 'clientRequest' => (object) [],
             ]);
 
-        return new StopApiResponse($responseJson);
+
+        return $this->responseFactory->createResponse($responseJson);
     }
 
 }

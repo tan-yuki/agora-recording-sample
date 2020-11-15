@@ -6,6 +6,8 @@ namespace AgoraServer\Application\Middleware;
 
 
 use AgoraServer\Application\Shared\ResponseWithJsonTrait;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop\Exception\NotCreatedRecordingFileException;
+use AgoraServer\Domain\Agora\Service\RecordingAPIClientService\Stop\Exception\UnknownRecordingStopApiException;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -36,18 +38,31 @@ class ExceptionHandleMiddleware implements MiddlewareInterface
         try {
             return $handler->handle($request);
         } catch (HttpBadRequestException $httpException) {
-            $response = $this->responseFactory->createResponse()->withStatus($httpException->getCode());
-            return $this->withJson($response, [
-                'message' => $httpException->getDescription(),
-            ]);
+            return $this->handleClientError($httpException->getDescription());
+        } catch (NotCreatedRecordingFileException $e) {
+            return $this->handleClientError($e->getMessage());
+        } catch (UnknownRecordingStopApiException $e) {
+            return $this->handleInternalError($e);
         } catch (Exception $exception) {
-            $this->logger->error($exception);
-
-            $response = $this->responseFactory->createResponse()->withStatus(500);
-            return $this->withJson($response, [
-                'message' => $exception->getMessage(),
-            ]);
+            return $this->handleInternalError($exception);
         }
     }
 
+    private function handleClientError(string $message): ResponseInterface
+    {
+        $response = $this->responseFactory->createResponse()->withStatus(400);
+        return $this->withJson($response, [
+            'message' => $message,
+        ]);
+    }
+
+    private function handleInternalError(Exception $e): ResponseInterface
+    {
+        $this->logger->error($e);
+
+        $response = $this->responseFactory->createResponse()->withStatus(500);
+        return $this->withJson($response, [
+            'message' => $e->getMessage(),
+        ]);
+    }
 }

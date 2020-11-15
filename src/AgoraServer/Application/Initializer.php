@@ -5,7 +5,6 @@ namespace AgoraServer\Application;
 
 use AgoraServer\Application\Route\Route;
 use AgoraServer\Infrastructure\Env\EnvironmentName;
-use DI\Bridge\Slim\Bridge;
 use DI\ContainerBuilder;
 use Slim\App;
 use DI\DependencyException;
@@ -42,4 +41,5 @@ final class Initializer
 
         return $app;
     }
+
 }

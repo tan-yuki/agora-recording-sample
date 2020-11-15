@@ -9,19 +9,22 @@ use AgoraServer\Domain\Agora\Entity\Project\AppIdFactory;
 use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKey;
 use AgoraServer\Domain\Agora\Entity\RestfulAPI\AuthCredentialKeyFactory;
 use GuzzleHttp\Client;
-use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\Psr7\Request;
+use GuzzleHttp\Exception\GuzzleException;
 
 class AgoraRecordingAPIClient
 {
     private AppId $appId;
     private AuthCredentialKey $authCredentialKey;
+    private Client $client;
 
     public function __construct(AppIdFactory $appIdFactory,
-                                AuthCredentialKeyFactory $authCredentialKeyFactory)
+                                AuthCredentialKeyFactory $authCredentialKeyFactory,
+                                Client $client)
     {
         $this->appId = $appIdFactory->create();
         $this->authCredentialKey = $authCredentialKeyFactory->create();
+        $this->client = $client;
     }
 
     /**
@@ -32,7 +35,6 @@ class AgoraRecordingAPIClient
      */
     public function callAgoraApi(string $path, array $body = []): array
     {
-        $client = new Client();
         $request = new Request(
             'POST',
             sprintf('https://api.agora.io/v1/apps/%s/cloud_recording%s', $this->appId->value(), $path),
@@ -42,7 +44,7 @@ class AgoraRecordingAPIClient
             ],
             json_encode($body, JSON_UNESCAPED_UNICODE));
 
-        $response = $client->send($request);
+        $response = $this->client->send($request);
 
         return json_decode((string) $response->getBody(), true);
     }

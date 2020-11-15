@@ -11,6 +11,10 @@ use AgoraServer\Infrastructure\Env\EnvironmentName;
 use DI\Bridge\Slim\Bridge;
 use DI\Container;
 use DI\ContainerBuilder;
+use GuzzleHttp\Client;
+use GuzzleHttp\HandlerStack;
+use GuzzleHttp\MessageFormatter;
+use GuzzleHttp\Middleware;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -51,6 +55,19 @@ class Config
             },
             ResponseFactoryInterface::class => function () {
                 return new ResponseFactory();
+            },
+            Client::class => function() use ($logger) {
+                $stack = HandlerStack::create();
+                $stack->push(
+                    Middleware::log(
+                        $logger,
+                        new MessageFormatter('{req_body} - {res_body}')
+                    )
+                );
+
+                return new Client([
+                    'handler' => $stack,
+                ]);
             },
         ]);
 
@@ -96,5 +113,4 @@ class Config
 
         return $app;
     }
-
 }

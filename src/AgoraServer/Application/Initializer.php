@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace AgoraServer\Application;
 
 use AgoraServer\Application\Route\Route;
+use AgoraServer\Infrastructure\Env\EnvironmentName;
 use DI\Bridge\Slim\Bridge;
 use DI\ContainerBuilder;
 use Slim\App;
@@ -12,14 +13,17 @@ use DI\NotFoundException;
 
 final class Initializer
 {
+    private EnvironmentName $envName;
     private Config $config;
     private ContainerBuilder $containerBuilder;
 
-    public function __construct(ContainerBuilder $containerBuilder,
+    public function __construct(EnvironmentName $envName,
+                                ContainerBuilder $containerBuilder,
                                 Config $config)
     {
+        $this->envName = $envName;
+        $this->containerBuilder = $containerBuilder;
         $this->config = $config;
-        $this->containerBuilder = $config->addDefinitions($containerBuilder);
     }
 
     /**
@@ -30,15 +34,10 @@ final class Initializer
      */
     public function createApplication(): App
     {
-        $container = $this->containerBuilder->build();
-
-        $app = Bridge::create($container);
-        $app = $this->config->addMiddleware($app, $container);
+        $app = $this->config->apply($this->envName, $this->containerBuilder);
 
         /** @var Route $router */
-        $route = $container->get(Route::class);
-
-        $route->setApp($app);
+        $route = $app->getContainer()->get(Route::class);
         $route->bind();
 
         return $app;

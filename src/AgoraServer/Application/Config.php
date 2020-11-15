@@ -7,6 +7,8 @@ namespace AgoraServer\Application;
 
 use AgoraServer\Application\Middleware\CORSMiddleware;
 use AgoraServer\Application\Middleware\ExceptionHandleMiddleware;
+use AgoraServer\Infrastructure\Env\EnvironmentName;
+use DI\Bridge\Slim\Bridge;
 use DI\Container;
 use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
@@ -20,14 +22,31 @@ use DI\NotFoundException;
 
 class Config
 {
+    /**
+     * Define logger.
+     *
+     * @param EnvironmentName $environmentName
+     * @return LoggerInterface
+     */
+    private function defineLogger(EnvironmentName $environmentName): LoggerInterface
+    {
+        $logger = new Logger('agora');
+        $logger->pushHandler(new StreamHandler('php://stderr', $environmentName->getLoggerLevel()));
 
-    public function addDefinitions(ContainerBuilder $builder): ContainerBuilder
+        return $logger;
+    }
+
+    /**
+     * Define DI.
+     *
+     * @param LoggerInterface  $logger
+     * @param ContainerBuilder $builder
+     * @return ContainerBuilder
+     */
+    private function defineDiDefinitions(LoggerInterface $logger, ContainerBuilder $builder): ContainerBuilder
     {
         $builder->addDefinitions([
-            LoggerInterface::class => function () {
-                $logger = new Logger('agora');
-                $logger->pushHandler(new StreamHandler('php://stderr', Logger::WARNING));
-
+            LoggerInterface::class => function () use ($logger) {
                 return $logger;
             },
             ResponseFactoryInterface::class => function () {
@@ -47,11 +66,35 @@ class Config
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function addMiddleware(App $app, Container $container): App
+    private function defineSlimMiddleware(App $app, Container $container): App
     {
         $app->add($container->get(ExceptionHandleMiddleware::class));
         $app->add($container->get(CORSMiddleware::class));
 
         return $app;
     }
+
+    /**
+     * @param EnvironmentName  $environmentName
+     * @param ContainerBuilder $builder
+     * @return App
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws \Exception
+     */
+    public function apply(EnvironmentName $environmentName, ContainerBuilder $builder): App
+    {
+        // Define DI.
+        $builder = $this->defineDiDefinitions($this->defineLogger($environmentName), $builder);
+        $container = $builder->build();
+
+        // Then, create slim application.
+        $app = Bridge::create($container);
+
+        // Then, add middleware for Slim application.
+        $app = $this->defineSlimMiddleware($app, $container);
+
+        return $app;
+    }
+
 }

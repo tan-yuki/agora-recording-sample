@@ -18,17 +18,14 @@ final class Route
     private StartRecordingController $startRecordingController;
     private StopRecordingController $stopRecordingController;
 
-    public function __construct(GetSecureTokenController $getSecureTokenController,
+    public function __construct(App $app,
+                                GetSecureTokenController $getSecureTokenController,
                                 StartRecordingController $startRecordingController,
                                 StopRecordingController $stopRecordingController) {
+        $this->app = $app;
         $this->getSecureTokenController = $getSecureTokenController;
         $this->startRecordingController = $startRecordingController;
         $this->stopRecordingController = $stopRecordingController;
-    }
-
-    public function setApp(App $app)
-    {
-        $this->app = $app;
     }
 
     public function bind(): void {

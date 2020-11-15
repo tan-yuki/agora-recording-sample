@@ -5,6 +5,7 @@ namespace FeatureTest;
 
 use AgoraServer\Application\Config;
 use AgoraServer\Application\Initializer;
+use AgoraServer\Infrastructure\Env\EnvironmentName;
 use DI\ContainerBuilder;
 use PHPUnit\Framework\TestCase;
 use Psr\Http\Message\ResponseInterface;
@@ -25,7 +26,10 @@ class FeatureBaseTestCase extends TestCase
 
         $builder = new ContainerBuilder();
 
-        $this->initializer = new Initializer($builder, new Config());
+        $this->initializer = new Initializer(
+            new EnvironmentName('DEV'),
+            $builder,
+            new Config());
         $this->containerBuilder = $builder;
     }
 

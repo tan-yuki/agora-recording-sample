@@ -5,12 +5,11 @@ use Dotenv\Dotenv;
 use DI\ContainerBuilder;
 use AgoraServer\Application\Initializer;
 use AgoraServer\Application\Config;
+use AgoraServer\Infrastructure\Env\EnvironmentName;
 
 const ROOT_PATH = __DIR__ . '/..';
 
 require ROOT_PATH . '/vendor/autoload.php';
-
-$env = $_ENV['AGORA_APP_ENV'] ?? 'DEV';
 
 // Load env file.
 // if `.env` file exits, load this file.
@@ -20,8 +19,10 @@ if (file_exists(ROOT_PATH . '/.env')) {
     $dotenv->load();
 }
 
+$envName = new EnvironmentName($_ENV['AGORA_APP_ENV'] ?? 'DEV');
+
 // Initialize application
-$initializer = new Initializer(new ContainerBuilder(), new Config());
+$initializer = new Initializer($envName, new ContainerBuilder(), new Config());
 $app = $initializer->createApplication();
 
 // Run api server
